@@ -1,99 +1,118 @@
 import { StyleSheet } from 'react-native';
 
-const AntiFlashWithe = '#F0EDEE'
-const MidNightGreen = '#07393C'
-const CaribbeanCurrent = '#2C666E'
-const Snow = '#FFFCFD'
+// palette de couleurs
+const BackgroundColor = '#F3F4F6'; // Gris très clair
+const CardColor = '#FFFFFF';       // Blanc pur
+const PrimaryColor = '#0F172A';    // Bleu nuit 
+const SecondaryColor = '#64748B';  // Gris moyen 
+const DangerColor = '#EF4444';     // Rouge 
 
 export default StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: AntiFlashWithe,
-    justifyContent: 'center',
-    alignItems: 'center',
+    backgroundColor: BackgroundColor,
+    padding: 20, // marge intérieure
   },
+  // Le style "Card" 
+  border: {
+    backgroundColor: CardColor,
+    borderRadius: 12, // Coins arrondis 
+    padding: 15,
+    marginBottom: 15,
+    // Ombre portée (Shadow) 
+    shadowColor: "#000",
+    shadowOffset: {
+      width: 0,
+      height: 2,
+    },
+    shadowOpacity: 0.1,
+    shadowRadius: 3.84,
+    elevation: 5,
+  },
+  // Input 
   input: {
-    width: '80%',
-    height: 40,
-    borderColor: MidNightGreen,
+    backgroundColor: CardColor,
+    height: 50,
+    borderRadius: 8,
+    borderColor: '#E2E8F0',
     borderWidth: 1,
-    marginBottom: 10,
-    paddingHorizontal: 10,
+    marginBottom: 15,
+    paddingHorizontal: 15,
+    fontSize: 16,
   },
+  // Bouton principal
   button: {
-    backgroundColor: MidNightGreen,
-    padding: 10,
-    borderRadius: 5,
+    backgroundColor: PrimaryColor,
+    paddingVertical: 12,
+    paddingHorizontal: 20,
+    borderRadius: 8,
     alignItems: 'center',
-    margin: 10,
-    width: '85%',
+    justifyContent: 'center',
+    marginVertical: 10,
+    width: '100%',
   },
   buttonText: {
     color: 'white',
-    textAlign: 'center',
-    fontSize: 14,
-    fontStyle: 'bold',
+    fontSize: 16,
+    fontWeight: '600',
   },
-  choix: {
-    backgroundColor: CaribbeanCurrent,
-    width: '30%',
-    aspectRatio: 1,
-    marginBottom: 10, 
-    borderRadius: 5, 
-    alignItems: 'center', 
-    justifyContent: 'center', 
-  },
-  choixMultiple: {
-    flex: 1, 
-    flexDirection: 'row', 
-    flexWrap: 'wrap', 
-    justifyContent: 'space-between', 
-    padding: 10, 
-  },
-  progressBarContainer: {
-    backgroundColor: MidNightGreen,
-    borderRadius: 10,
-    height: 20,
-    overflow: 'hidden',
-    width: '80%',
-    margin: '10%',
-  },
-  progressBar: {
-    backgroundColor: CaribbeanCurrent,
-    height: '100%',
-    justifyContent: 'center',
+  // Pour les listes d'items
+  TodoLists: {
+    flexDirection: 'row',
     alignItems: 'center',
-  },
-  progressText: {
-    position: 'absolute',
-    align: 'center',
-    color: 'white',
-    fontSize: 12,
-  },
-  border: {
-    borderColor: MidNightGreen,
-    backgroundColor: Snow,
-    borderWidth: 2,
-    width: '100%',
-    height: '50%',
+    justifyContent: 'space-between',
+    paddingVertical: 10,
+    borderBottomColor: '#F1F5F9',
+    borderBottomWidth: 1,
   },
   deleteIcon: {
-    alignItems: 'right',
-    borderLeftColor: CaribbeanCurrent,
-    borderLeftWidth: 1,
+    padding: 8,
   },
-  TodoLists: {
-    borderBottonColor: CaribbeanCurrent,
-    borderBottomWidth: 1,
-    height: 25,
-    flex: 1,
-    flexDirection: 'row',
-    justifyContent: 'center',
-    alignItems: 'center',
+  // Titres
+  title: {
+    fontSize: 24,
+    fontWeight: 'bold',
+    color: PrimaryColor,
+    marginBottom: 20,
+  },
+  subText: {
+    color: SecondaryColor,
+    fontSize: 14,
+    marginBottom: 20,
+  },
+  // Progress Bar
+  progressBarContainer: {
+    backgroundColor: '#E2E8F0',
+    borderRadius: 99, 
+    height: 10,
     width: '100%',
+    marginBottom: 20,
+    overflow: 'hidden',
+  },
+  progressBar: {
+    backgroundColor: PrimaryColor,
+    height: '100%',
+  },
+  // Filtres (Choix)
+  choixMultiple: {
+    flexDirection: 'row',
+    flexWrap: 'wrap',
+    gap: 10,
+    marginTop: 15,
+  },
+  choix: {
+    backgroundColor: '#E2E8F0',
+    paddingVertical: 8,
+    paddingHorizontal: 12,
+    borderRadius: 20,
+  },
+  choixText: {
+     color: PrimaryColor,
+     fontSize: 12,
+     fontWeight: '600'
   },
   ErrorText: {
-    color: 'red',
+    color: DangerColor,
+    marginBottom: 10,
   }
-
 });

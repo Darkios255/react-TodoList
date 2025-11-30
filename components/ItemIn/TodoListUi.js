@@ -97,25 +97,26 @@ export default function TodoListUi(props){
                 <Text style={styles.buttonText}>Nouveau Todo</Text>
             </TouchableOpacity>
             <View style={styles.choixMultiple}>
-                <TouchableOpacity style={styles.choix} onPress={() => setTodosFilter('')}
-                >
-                    <Text style={styles.buttonText}>Afficher tout les Todos</Text>
+                <TouchableOpacity style={styles.choix} onPress={() => setTodosFilter('')}>
+                    <Text style={styles.choixText}>Tous</Text>
                 </TouchableOpacity>
-                <TouchableOpacity style={styles.choix} onPress={() => setTodosFilter('done')}
-                >
-                    <Text style={styles.buttonText}>Afficher les Todos fini</Text>
+                
+                <TouchableOpacity style={styles.choix} onPress={() => setTodosFilter('done')}>
+                    <Text style={styles.choixText}>Terminés</Text>
                 </TouchableOpacity>
-                <TouchableOpacity style={styles.choix} onPress={() => setTodosFilter('undone')}
-                >
-                    <Text style={styles.buttonText}>Afficher les Todos non fini</Text>
+                
+                <TouchableOpacity style={styles.choix} onPress={() => setTodosFilter('undone')}>
+                    <Text style={styles.choixText}>En cours</Text>
                 </TouchableOpacity>
-                <TouchableOpacity style={styles.choix} onPress={() => setDoneState(true)}
-                >
-                    <Text style={styles.buttonText}>Tout cocher</Text>
+
+                {/* Séparateur visuel ou juste de l'espace géré par flexWrap */}
+                
+                <TouchableOpacity style={styles.choix} onPress={() => setDoneState(true)}>
+                    <Text style={styles.choixText}>Tout cocher</Text>
                 </TouchableOpacity>
-                <TouchableOpacity style={styles.choix} onPress={() => setDoneState(false)}
-                >
-                    <Text style={styles.buttonText}>Tout Décocher</Text>
+                
+                <TouchableOpacity style={styles.choix} onPress={() => setDoneState(false)}>
+                    <Text style={styles.choixText}>Tout décocher</Text>
                 </TouchableOpacity>
             </View>
             </View>

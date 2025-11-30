@@ -1,13 +1,14 @@
 import React from 'react';
-import { TouchableOpacity } from 'react-native';
-
+import { TouchableOpacity, View } from 'react-native';
 import Item from '../API/item';
 import styles from '../../styles';
 
-export default function TodoListItem (props) {
+export default function TodoListStackItem(props) {
     return (
+        // On applique le style "border" ici pour créer l'effet "Carte"
         <TouchableOpacity
-            onPress={() => props.navigation.navigate('Details', {id: props.item.id})}>
+            style={styles.border} 
+            onPress={() => props.navigation.navigate('Details', { id: props.item.id })}>
             <Item
                 id={props.item.id}
                 title={props.item.title}
