@@ -1,11 +1,11 @@
 import React, { useContext, useState, useEffect } from 'react';
-import { View, StyleSheet } from 'react-native';
+import { View, Text } from 'react-native'; // Ajout Text
 
 import { UsernameContext, TokenContext } from '../Context/Context';
 import { getTodoLists, deleteTodoList }  from '../components/API/todoListAPI';
 
 import Input from '../components/API/input';
-import TodoListStack from '../components/ItemOut/TodoListStack'
+import TodoListStack from '../components/ItemOut/TodoListStack';
 import styles from '../styles';
 
 export default function TodoListScreen({ navigation }) {
@@ -31,13 +31,22 @@ export default function TodoListScreen({ navigation }) {
 
     return (
         <View style={styles.container}>
-            <TodoListStack style={styles.border}
+            <View>
+                <Text style={styles.title}>Mes Listes</Text>
+                <Text style={styles.subTitle}>Gérez vos listes de tâches</Text>
+            </View>
+
+            {/* L'Input est maintenant en HAUT (Comme sur le screen) */}
+            <View style={{ backgroundColor: 'white', padding: 15, borderRadius: 10, marginBottom: 20 }}>
+                <Text style={{marginBottom: 10, fontWeight: '500'}}>Créer une nouvelle liste</Text>
+                <Input refresh={refreshTodoLists} />
+            </View>
+
+            {/* La liste en dessous */}
+            <TodoListStack
                 data={todoLists}
                 delete={deleteTodoListS}
                 navigation={navigation}
-            />
-            <Input style={styles.border}
-                refresh={refreshTodoLists}
             />
         </View>
     );

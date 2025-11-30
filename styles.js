@@ -1,46 +1,45 @@
 import { StyleSheet } from 'react-native';
 
-// palette de couleurs
-const BackgroundColor = '#F3F4F6'; // Gris très clair
-const CardColor = '#FFFFFF';       // Blanc pur
-const PrimaryColor = '#0F172A';    // Bleu nuit 
-const SecondaryColor = '#64748B';  // Gris moyen 
-const DangerColor = '#EF4444';     // Rouge 
+// Palette inspirée du design web (Shadcn/Tailwind)
+const BackgroundColor = '#F3F4F6'; // Gris très clair pour le fond de l'app
+const CardColor = '#FFFFFF';       // Blanc pour les cartes
+const PrimaryColor = '#0F172A';    // Noir/Bleu nuit pour les textes et boutons principaux
+const SecondaryColor = '#64748B';  // Gris pour les textes secondaires
+const BorderColor = '#E2E8F0';     // Gris clair pour les bordures
+const DangerColor = '#EF4444';     // Rouge pour supprimer
 
 export default StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: BackgroundColor,
-    padding: 20, // marge intérieure
-  },
-  // Le style "Card" 
-  border: {
-    backgroundColor: CardColor,
-    borderRadius: 12, // Coins arrondis 
     padding: 15,
-    marginBottom: 15,
-    // Ombre portée (Shadow) 
-    shadowColor: "#000",
-    shadowOffset: {
-      width: 0,
-      height: 2,
-    },
-    shadowOpacity: 0.1,
-    shadowRadius: 3.84,
-    elevation: 5,
   },
-  // Input 
+  // Style global pour les textes
+  title: {
+    fontSize: 22,
+    fontWeight: 'bold',
+    color: PrimaryColor,
+    marginBottom: 5,
+  },
+  subTitle: {
+    fontSize: 14,
+    color: SecondaryColor,
+    marginBottom: 15,
+  },
+  
+  // --- Inputs ---
   input: {
     backgroundColor: CardColor,
     height: 50,
     borderRadius: 8,
-    borderColor: '#E2E8F0',
+    borderColor: BorderColor,
     borderWidth: 1,
-    marginBottom: 15,
+    marginBottom: 10,
     paddingHorizontal: 15,
     fontSize: 16,
   },
-  // Bouton principal
+
+  // --- Boutons ---
   button: {
     backgroundColor: PrimaryColor,
     paddingVertical: 12,
@@ -48,71 +47,118 @@ export default StyleSheet.create({
     borderRadius: 8,
     alignItems: 'center',
     justifyContent: 'center',
-    marginVertical: 10,
-    width: '100%',
+    marginVertical: 5,
   },
   buttonText: {
     color: 'white',
-    fontSize: 16,
+    fontSize: 14,
     fontWeight: '600',
   },
-  // Pour les listes d'items
-  TodoLists: {
+  // Petit bouton contour (pour "Tout cocher", "Déconnexion" etc.)
+  outlineButton: {
+    backgroundColor: CardColor,
+    borderColor: BorderColor,
+    borderWidth: 1,
+    paddingVertical: 8,
+    paddingHorizontal: 12,
+    borderRadius: 6,
+    alignItems: 'center',
+    marginHorizontal: 5,
+  },
+  outlineButtonText: {
+    color: PrimaryColor,
+    fontSize: 12,
+    fontWeight: '600',
+  },
+
+  // --- Cartes (Listes) ---
+  border: { // Utilisé pour le conteneur de la liste
+    flex: 1, 
+    marginTop: 10
+  },
+  // Style d'une "Card" individuelle
+  card: {
+    backgroundColor: CardColor,
+    borderRadius: 10,
+    padding: 15,
+    marginBottom: 10,
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'space-between',
-    paddingVertical: 10,
-    borderBottomColor: '#F1F5F9',
-    borderBottomWidth: 1,
+    // Ombre
+    shadowColor: "#000",
+    shadowOffset: { width: 0, height: 1 },
+    shadowOpacity: 0.1,
+    shadowRadius: 2,
+    elevation: 3,
+    borderColor: BorderColor,
+    borderWidth: 1,
   },
-  deleteIcon: {
-    padding: 8,
+  
+  // --- Filtres (Pills) ---
+  choixMultiple: {
+    flexDirection: 'row',
+    marginVertical: 15,
+    gap: 10,
   },
-  // Titres
-  title: {
-    fontSize: 24,
-    fontWeight: 'bold',
+  filterPill: {
+    paddingVertical: 6,
+    paddingHorizontal: 16,
+    borderRadius: 20, // Forme de pillule
+    backgroundColor: CardColor,
+    borderWidth: 1,
+    borderColor: BorderColor,
+  },
+  filterPillActive: {
+    paddingVertical: 6,
+    paddingHorizontal: 16,
+    borderRadius: 20,
+    backgroundColor: PrimaryColor, // Fond noir si actif
+    borderWidth: 1,
+    borderColor: PrimaryColor,
+  },
+  filterText: {
+    fontSize: 13,
+    fontWeight: '600',
     color: PrimaryColor,
-    marginBottom: 20,
   },
-  subText: {
-    color: SecondaryColor,
-    fontSize: 14,
-    marginBottom: 20,
+  filterTextActive: {
+    fontSize: 13,
+    fontWeight: '600',
+    color: 'white',
   },
-  // Progress Bar
+
+  // --- Layout Detail ---
+  headerRow: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    marginBottom: 15,
+  },
+  actionsRow: {
+    flexDirection: 'row',
+  },
+  
+  // --- Divers ---
   progressBarContainer: {
-    backgroundColor: '#E2E8F0',
-    borderRadius: 99, 
-    height: 10,
-    width: '100%',
-    marginBottom: 20,
+    height: 4,
+    backgroundColor: BorderColor,
+    borderRadius: 2,
+    marginVertical: 10,
     overflow: 'hidden',
   },
   progressBar: {
-    backgroundColor: PrimaryColor,
     height: '100%',
+    backgroundColor: PrimaryColor,
   },
-  // Filtres (Choix)
-  choixMultiple: {
-    flexDirection: 'row',
-    flexWrap: 'wrap',
-    gap: 10,
-    marginTop: 15,
-  },
-  choix: {
-    backgroundColor: '#E2E8F0',
-    paddingVertical: 8,
-    paddingHorizontal: 12,
-    borderRadius: 20,
-  },
-  choixText: {
-     color: PrimaryColor,
-     fontSize: 12,
-     fontWeight: '600'
+  progressText: {
+    fontSize: 12,
+    color: SecondaryColor,
+    marginTop: 2,
   },
   ErrorText: {
     color: DangerColor,
     marginBottom: 10,
+    fontSize: 12,
   }
 });

@@ -5,9 +5,9 @@ import styles from '../../styles';
 
 export default function TodoListStackItem(props) {
     return (
-        // On applique le style "border" ici pour créer l'effet "Carte"
+        // On applique le style "card" ici pour créer l'effet "Carte"
         <TouchableOpacity
-            style={styles.border} 
+            style={styles.card} 
             onPress={() => props.navigation.navigate('Details', { id: props.item.id })}>
             <Item
                 id={props.item.id}

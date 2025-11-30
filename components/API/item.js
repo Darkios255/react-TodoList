@@ -4,9 +4,9 @@ import styles from '../../styles';
 
 export default function Item (props) {
     return (
-        <View style={styles.TodoLists}>
-            <Text style={{marginLeft: 20, width: '90%'}}>{props.title}</Text>
-            <TouchableOpacity style={styles.deleteIcon}
+        <View style={{flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', flex: 1}}>
+            <Text style={{flex: 1}}>{props.title}</Text>
+            <TouchableOpacity 
                 onPress={() => {
                     props.delete()
             }}>
