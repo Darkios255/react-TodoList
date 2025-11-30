@@ -1,7 +1,7 @@
 import React, { useContext } from 'react'
 import { View, Text } from 'react-native'
 
-import { UsernameContext } from '../Contexte/Context'
+import { UsernameContext } from '../Context/Context'
 import styles from '../styles'
 
 

@@ -2,7 +2,7 @@ import React from 'react'
 import { View, Text, TouchableOpacity } from 'react-native'
 
 import styles from '../styles';
-import { TokenContext, UsernameContext } from '../Contexte/Context'
+import { TokenContext, UsernameContext } from '../Context/Context'
 
 export default function SignOutScreen ({ navigation, route }) {
   return <TokenContext.Consumer>

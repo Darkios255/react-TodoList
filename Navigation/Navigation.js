@@ -9,7 +9,7 @@ import SignInScreen from '../Screen/SignInScreen'
 import SignOutScreen from '../Screen/SignOutScreen'
 import SignUpScreen from '../Screen/SignUpScreen'
 
-import { TokenContext } from '../Contexte/Context'
+import { TokenContext } from '../Context/Context'
 
 const Tab = createBottomTabNavigator()
 

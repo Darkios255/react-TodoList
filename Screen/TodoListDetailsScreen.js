@@ -3,7 +3,7 @@ import { View } from 'react-native';
 
 import TodoListUi from '../components/ItemIn/TodoListUi';
 import { getTodos } from "../components/API/todo"
-import { TokenContext } from '../Contexte/Context'
+import { TokenContext } from '../Context/Context'
 import styles from '../styles';
 
 export default function TodoListScreen(props) {

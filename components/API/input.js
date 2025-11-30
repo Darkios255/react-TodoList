@@ -1,7 +1,7 @@
 import React, { useState, useContext } from "react";
 import { View, Text, TextInput, TouchableOpacity } from "react-native";
 
-import { UsernameContext, TokenContext } from "../../Contexte/Context";
+import { UsernameContext, TokenContext } from "../../Context/Context";
 import { createTodoList } from "./todoListAPI";
 import styles from "../../styles";
 

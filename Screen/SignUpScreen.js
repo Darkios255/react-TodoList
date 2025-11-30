@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { View, TextInput, TouchableOpacity, Text } from 'react-native';
 
 import styles from '../styles';
-import { TokenContext, UsernameContext } from '../Contexte/Context';
+import { TokenContext, UsernameContext } from '../Context/Context';
 import { signUp } from '../components/API/sign';
 
 

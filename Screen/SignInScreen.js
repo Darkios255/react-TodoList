@@ -2,7 +2,7 @@ import React, { useState } from 'react'
 import { View, Text, TextInput, TouchableOpacity } from 'react-native'
 
 import styles from '../styles';
-import { TokenContext, UsernameContext } from '../Contexte/Context'
+import { TokenContext, UsernameContext } from '../Context/Context'
 import { signIn } from '../components/API/sign'
 
 export default function SignInScreen () {
