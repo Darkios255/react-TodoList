@@ -1,6 +1,6 @@
 import React, { useContext, useEffect, useState } from "react";
 import { View, TextInput, TouchableOpacity, Text, FlatList, ScrollView  } from 'react-native';
-import { TokenContext } from '../../Contexte/Context'
+import { TokenContext } from '../../Context/Context'
 import ProgressBar from './progressBar';
 import { createTodo, updateTodo, deleteTodo} from '../API/todo'
 

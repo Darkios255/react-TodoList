@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { TokenContext, UsernameContext } from './Contexte/Context'
+import { TokenContext, UsernameContext } from './Context/Context'
 import Navigation from './Navigation/Navigation'
 
 export default function App () {
