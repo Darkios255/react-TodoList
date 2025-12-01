@@ -1,6 +1,6 @@
-import API_URL from "./apiUrl.js"
+import API_URL from "./apiUrl.js";
 
-import fetch from "node-fetch"
+import fetch from "node-fetch";
 
 const CREATE_TODO = `
 mutation CreateTodos($input: [TodoCreateInput!]!) {
@@ -12,46 +12,46 @@ mutation CreateTodos($input: [TodoCreateInput!]!) {
     }
   }
 }
-`
+`;
 
 export function createTodo(content, todoListId, token) {
   return fetch(API_URL, {
-    method: 'POST',
+    method: "POST",
     headers: {
-      'Content-Type': 'application/json',
-      'authorization': 'Bearer ' + token
+      "Content-Type": "application/json",
+      authorization: "Bearer " + token,
     },
     body: JSON.stringify({
       query: CREATE_TODO,
       variables: {
-        "input": [
+        input: [
           {
-            "belongsTo": {
-              "connect": {
-                "where": {
-                  "id": todoListId
-                }
-              }
+            belongsTo: {
+              connect: {
+                where: {
+                  id: todoListId,
+                },
+              },
             },
-            "content": content
-          }
-        ]
-      }
-    })
+            content: content,
+          },
+        ],
+      },
+    }),
   })
-    .then(response => {
-      return response.json()
+    .then((response) => {
+      return response.json();
     })
-    .then(jsonResponse => {
+    .then((jsonResponse) => {
       if (jsonResponse.errors != null) {
-        throw jsonResponse.errors[0]
+        throw jsonResponse.errors[0];
       }
-      return jsonResponse.data.createTodos.todos[0]
+      return jsonResponse.data.createTodos.todos[0];
     })
-    .catch(error => {
-        console.log('error API', error.message)
-      throw error
-    })
+    .catch((error) => {
+      console.log("error API", error.message);
+      throw error;
+    });
 }
 
 const TODOS = `
@@ -62,38 +62,38 @@ query Todos($where: TodoWhere) {
     done
   }
 }
-`
+`;
 export function getTodos(todoListId, token) {
   return fetch(API_URL, {
-    method: 'POST',
+    method: "POST",
     headers: {
-      'Content-Type': 'application/json',
-      'authorization': 'Bearer ' + token
+      "Content-Type": "application/json",
+      authorization: "Bearer " + token,
     },
     body: JSON.stringify({
       query: TODOS,
       variables: {
-        "where": {
-          "belongsTo": {
-            "id": todoListId
-          }
-        }
-      }
-    })
+        where: {
+          belongsTo: {
+            id: todoListId,
+          },
+        },
+      },
+    }),
   })
-    .then(response => {
-      return response.json()
+    .then((response) => {
+      return response.json();
     })
-    .then(jsonResponse => {
+    .then((jsonResponse) => {
       if (jsonResponse.errors != null) {
-        throw jsonResponse.errors[0]
+        throw jsonResponse.errors[0];
       }
-      return jsonResponse.data.todos
+      return jsonResponse.data.todos;
     })
-    .catch(error => {
-        console.log('error API', error.message)
-      throw error
-    })
+    .catch((error) => {
+      console.log("error API", error.message);
+      throw error;
+    });
 }
 
 const UPDATE_TODO = `
@@ -105,76 +105,76 @@ mutation UpdateTodos($where: TodoWhere, $update: TodoUpdateInput) {
       done
     }
   }
-}`
+}`;
 export function updateTodo(todoId, done, token) {
-    return fetch(API_URL, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        'authorization': 'Bearer ' + token
+  return fetch(API_URL, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+      authorization: "Bearer " + token,
+    },
+    body: JSON.stringify({
+      query: UPDATE_TODO,
+      variables: {
+        where: {
+          id: todoId,
+        },
+        update: {
+          done: done,
+        },
       },
-      body: JSON.stringify({
-        query: UPDATE_TODO,
-        variables: {
-          "where": {
-            "id": todoId
-          },
-          "update": {
-            "done": done
-          }
-        }
-      })
+    }),
+  })
+    .then((response) => {
+      return response.json();
     })
-      .then(response => {
-        return response.json()
-      })
-      .then(jsonResponse => {
-        if (jsonResponse.errors != null) {
-          throw jsonResponse.errors[0]
-        }
-        return jsonResponse.data.updateTodos.todos[0]
-      })
-      .catch(error => {
-          console.log('error API', error.message)
-        throw error
-      })
-  }
-  
+    .then((jsonResponse) => {
+      if (jsonResponse.errors != null) {
+        throw jsonResponse.errors[0];
+      }
+      return jsonResponse.data.updateTodos.todos[0];
+    })
+    .catch((error) => {
+      console.log("error API", error.message);
+      throw error;
+    });
+}
+
 const DELETE_TODO = `
 mutation($id: ID!) {
   deleteTodos(where: { id: $id }) {
     nodesDeleted
   }
 }
-`
+`;
 
 export function deleteTodo(id, token) {
   return fetch(API_URL, {
-    method: 'POST',
+    method: "POST",
     headers: {
-      'Content-Type': 'application/json',
-      'authorization': 'Bearer ' + token
+      "Content-Type": "application/json",
+      authorization: "Bearer " + token,
     },
     body: JSON.stringify({
       query: DELETE_TODO,
       variables: {
-        id: id
-      }
-    })
+        id: id,
+      },
+    }),
   })
-    .then(response => {
-      return response.json()
+    .then((response) => {
+      return response.json();
     })
-    .then(jsonResponse => {
+    .then((jsonResponse) => {
       if (jsonResponse.errors != null) {
-        throw jsonResponse.errors[0]
+        throw jsonResponse.errors[0];
       }
-      return jsonResponse.data.deleteTodos.nodesDeleted
+      return jsonResponse.data.deleteTodos.nodesDeleted;
     })
-    .catch(error => {
-        console.log('error API', error.message)
-      throw error
-    })
+    .catch((error) => {
+      console.log("error API", error.message);
+      throw error;
+    });
 }
 
 const UPDATE_TODOS_BATCH = `
@@ -186,38 +186,38 @@ mutation UpdateTodos($where: TodoWhere, $update: TodoUpdateInput) {
     }
   }
 }
-`
+`;
 
 export function updateAllTodos(listId, doneState, token) {
   return fetch(API_URL, {
-    method: 'POST',
+    method: "POST",
     headers: {
-      'Content-Type': 'application/json',
-      'authorization': 'Bearer ' + token
+      "Content-Type": "application/json",
+      authorization: "Bearer " + token,
     },
     body: JSON.stringify({
       query: UPDATE_TODOS_BATCH,
       variables: {
-        "where": {
-          "belongsTo": {
-            "id": listId
-          }
+        where: {
+          belongsTo: {
+            id: listId,
+          },
         },
-        "update": {
-          "done": doneState
-        }
+        update: {
+          done: doneState,
+        },
+      },
+    }),
+  })
+    .then((response) => response.json())
+    .then((jsonResponse) => {
+      if (jsonResponse.errors != null) {
+        throw jsonResponse.errors[0];
       }
+      return jsonResponse.data.updateTodos.todos;
     })
-  })
-  .then(response => response.json())
-  .then(jsonResponse => {
-    if (jsonResponse.errors != null) {
-      throw jsonResponse.errors[0]
-    }
-    return jsonResponse.data.updateTodos.todos
-  })
-  .catch(error => {
-    console.log('error API', error.message)
-    throw error
-  })
+    .catch((error) => {
+      console.log("error API", error.message);
+      throw error;
+    });
 }

@@ -1,49 +1,76 @@
-import React, { useContext, useState, useEffect } from 'react';
-import { View } from 'react-native'; // Plus besoin de Text ici
+import React, { useContext, useState, useEffect } from "react";
+import { View, share } from "react-native";
 
-import { UsernameContext, TokenContext } from '../Context/Context';
-import { getTodoLists, deleteTodoList }  from '../components/API/todoListAPI';
+import { UsernameContext, TokenContext } from "../Context/Context";
+import { getTodoLists, deleteTodoList } from "../components/API/todoListAPI";
+import { getTodos } from "../components/API/todo";
 
-import Input from '../components/API/input';
-import TodoListStack from '../components/ItemOut/TodoListStack';
-import styles from '../styles';
+import Input from "../components/API/input";
+import TodoListStack from "../components/ItemOut/TodoListStack";
+import styles from "../styles";
 
 export default function TodoListScreen({ navigation }) {
-    const [token] = useContext(TokenContext);
-    const [username] = useContext(UsernameContext);
-    const [todoLists, setTodolists] = useState([]);
+  const [token] = useContext(TokenContext);
+  const [username] = useContext(UsernameContext);
+  const [todoLists, setTodolists] = useState([]);
 
-    useEffect (() => {
-        getTodoLists(username, token)
-            .then(todolists => setTodolists(todolists))
-            .catch(err => console.error(err.message));
-    }, []);
+  useEffect(() => {
+    getTodoLists(username, token)
+      .then((todolists) => setTodolists(todolists))
+      .catch((err) => console.error(err.message));
+  }, []);
 
-    const deleteTodoListS = (id) => {
-        setTodolists(todoLists.filter(todoList => todoList.id !== id));
-        deleteTodoList(id, token)
-            .catch(err => console.error(err.message));
-    };
+  const exportList = async (id, title) => {
+    try {
+      // 1. Récupérer les tâches de la liste via l'API
+      const todos = await getTodos(id, token);
 
-    function refreshTodoLists(val) {
-        setTodolists([...todoLists, val]);
-    };
+      // 2. Formater le message (ex: format texte simple avec cases cochées [x])
+      const message =
+        `Liste : ${title}\n\n` +
+        todos.map((t) => `- [${t.done ? "x" : " "}] ${t.content}`).join("\n");
 
-    return (
-        <View style={styles.container}>
-            
-            {/* Zone de création épurée (Carte blanche) */}
-            <View style={{ backgroundColor: 'white', padding: 15, borderRadius: 10, marginBottom: 20 }}>
-                {/* On passe la fonction refresh au composant Input */}
-                <Input refresh={refreshTodoLists} />
-            </View>
+      // 3. Ouvrir le menu de partage natif (copier, mail, whatsapp, etc.)
+      await Share.share({
+        message: message,
+        title: `Export ${title}`,
+      });
+    } catch (error) {
+      console.error("Erreur lors de l'export:", error);
+    }
+  };
 
-            {/* Liste des TodoLists */}
-            <TodoListStack
-                data={todoLists}
-                delete={deleteTodoListS}
-                navigation={navigation}
-            />
-        </View>
-    );
-};
+  const deleteTodoListS = (id) => {
+    setTodolists(todoLists.filter((todoList) => todoList.id !== id));
+    deleteTodoList(id, token).catch((err) => console.error(err.message));
+  };
+
+  function refreshTodoLists(val) {
+    setTodolists([...todoLists, val]);
+  }
+
+  return (
+    <View style={styles.container}>
+      {/* Zone de création épurée (Carte blanche) */}
+      <View
+        style={{
+          backgroundColor: "white",
+          padding: 15,
+          borderRadius: 10,
+          marginBottom: 20,
+        }}
+      >
+        {/* On passe la fonction refresh au composant Input */}
+        <Input refresh={refreshTodoLists} />
+      </View>
+
+      {/* Liste des TodoLists */}
+      <TodoListStack
+        data={todoLists}
+        export={exportList}
+        delete={deleteTodoListS}
+        navigation={navigation}
+      />
+    </View>
+  );
+}

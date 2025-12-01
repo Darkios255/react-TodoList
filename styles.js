@@ -1,12 +1,12 @@
-import { StyleSheet } from 'react-native';
+import { StyleSheet } from "react-native";
 
 // Palette inspirée du design web (Shadcn/Tailwind)
-const BackgroundColor = '#F3F4F6'; // Gris très clair pour le fond de l'app
-const CardColor = '#FFFFFF';       // Blanc pour les cartes
-const PrimaryColor = '#0F172A';    // Noir/Bleu nuit pour les textes et boutons principaux
-const SecondaryColor = '#64748B';  // Gris pour les textes secondaires
-const BorderColor = '#E2E8F0';     // Gris clair pour les bordures
-const DangerColor = '#EF4444';     // Rouge pour supprimer
+const BackgroundColor = "#F3F4F6"; // Gris très clair pour le fond de l'app
+const CardColor = "#FFFFFF"; // Blanc pour les cartes
+const PrimaryColor = "#0F172A"; // Noir/Bleu nuit pour les textes et boutons principaux
+const SecondaryColor = "#64748B"; // Gris pour les textes secondaires
+const BorderColor = "#E2E8F0"; // Gris clair pour les bordures
+const DangerColor = "#EF4444"; // Rouge pour supprimer
 
 export default StyleSheet.create({
   container: {
@@ -17,7 +17,7 @@ export default StyleSheet.create({
   // Style global pour les textes
   title: {
     fontSize: 22,
-    fontWeight: 'bold',
+    fontWeight: "bold",
     color: PrimaryColor,
     marginBottom: 5,
   },
@@ -32,10 +32,10 @@ export default StyleSheet.create({
     marginBottom: 10,
   },
   bodyText: {
-    color: '#334155',
+    color: "#334155",
     lineHeight: 22,
   },
-  
+
   // --- Inputs ---
   input: {
     backgroundColor: CardColor,
@@ -58,8 +58,8 @@ export default StyleSheet.create({
     paddingVertical: 12,
     paddingHorizontal: 20,
     borderRadius: 8,
-    alignItems: 'center',
-    justifyContent: 'center',
+    alignItems: "center",
+    justifyContent: "center",
     marginVertical: 5,
   },
   buttonCompact: {
@@ -72,9 +72,9 @@ export default StyleSheet.create({
     marginVertical: 0,
   },
   buttonText: {
-    color: 'white',
+    color: "white",
     fontSize: 14,
-    fontWeight: '600',
+    fontWeight: "600",
   },
   // Petit bouton contour (pour "Tout cocher", "Déconnexion" etc.)
   outlineButton: {
@@ -84,19 +84,20 @@ export default StyleSheet.create({
     paddingVertical: 8,
     paddingHorizontal: 12,
     borderRadius: 6,
-    alignItems: 'center',
+    alignItems: "center",
     marginHorizontal: 5,
   },
   outlineButtonText: {
     color: PrimaryColor,
     fontSize: 12,
-    fontWeight: '600',
+    fontWeight: "600",
   },
 
   // --- Cartes (Listes) ---
-  border: { // Utilisé pour le conteneur de la liste
-    flex: 1, 
-    marginTop: 10
+  border: {
+    // Utilisé pour le conteneur de la liste
+    flex: 1,
+    marginTop: 10,
   },
   // Style d'une "Card" individuelle
   card: {
@@ -104,9 +105,9 @@ export default StyleSheet.create({
     borderRadius: 10,
     padding: 15,
     marginBottom: 10,
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'space-between',
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "space-between",
     // Ombre
     shadowColor: "#000",
     shadowOffset: { width: 0, height: 1 },
@@ -119,8 +120,8 @@ export default StyleSheet.create({
   authCard: {
     backgroundColor: CardColor,
     borderRadius: 12,
-    padding: 25,               
-    width: '100%',             
+    padding: 25,
+    width: "100%",
     shadowColor: "#000",
     shadowOffset: { width: 0, height: 2 },
     shadowOpacity: 0.1,
@@ -144,10 +145,10 @@ export default StyleSheet.create({
     paddingVertical: 10,
     paddingHorizontal: 10,
   },
-  
+
   // --- Filtres (Pills) ---
   choixMultiple: {
-    flexDirection: 'row',
+    flexDirection: "row",
     marginVertical: 15,
     gap: 10,
   },
@@ -169,59 +170,59 @@ export default StyleSheet.create({
   },
   filterText: {
     fontSize: 13,
-    fontWeight: '600',
+    fontWeight: "600",
     color: PrimaryColor,
   },
   filterTextActive: {
     fontSize: 13,
-    fontWeight: '600',
-    color: 'white',
+    fontWeight: "600",
+    color: "white",
   },
 
   // --- Layout Detail ---
   headerRow: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'center',
+    flexDirection: "row",
+    justifyContent: "space-between",
+    alignItems: "center",
     marginBottom: 15,
   },
   headerRowTop: {
-    alignItems: 'flex-start',
+    alignItems: "flex-start",
   },
   actionsRow: {
-    flexDirection: 'row',
+    flexDirection: "row",
   },
   inlineRow: {
-    flexDirection: 'row',
-    alignItems: 'center',
+    flexDirection: "row",
+    alignItems: "center",
   },
   inlineRowGap: {
-    flexDirection: 'row',
-    alignItems: 'center',
+    flexDirection: "row",
+    alignItems: "center",
     gap: 10,
   },
   flex1: {
     flex: 1,
   },
-  
+
   // --- Divers ---
   progressBarContainer: {
     height: 4,
     backgroundColor: BorderColor,
     borderRadius: 2,
     marginVertical: 10,
-    overflow: 'hidden',
+    overflow: "hidden",
   },
   progressSection: {
     marginBottom: 20,
   },
   statsRow: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
+    flexDirection: "row",
+    justifyContent: "space-between",
     marginBottom: 5,
   },
   progressBar: {
-    height: '100%',
+    height: "100%",
     backgroundColor: PrimaryColor,
   },
   progressText: {
@@ -235,29 +236,29 @@ export default StyleSheet.create({
     fontSize: 12,
   },
   buttonDanger: {
-    backgroundColor: '#EF4444', // Rouge
+    backgroundColor: "#EF4444", // Rouge
     paddingVertical: 12,
     paddingHorizontal: 20,
     borderRadius: 8,
-    alignItems: 'center',
-    justifyContent: 'center',
+    alignItems: "center",
+    justifyContent: "center",
     marginVertical: 10,
-    width: '100%',
+    width: "100%",
   },
   inputLabel: {
     fontSize: 14,
     color: SecondaryColor, // #64748B - gris moyen
-    fontWeight: '500',
+    fontWeight: "500",
     marginBottom: 10,
   },
   sectionLabel: {
-    fontWeight: '500',
+    fontWeight: "500",
     marginBottom: 10,
     color: PrimaryColor,
   },
   backRow: {
-    flexDirection: 'row',
-    alignItems: 'center',
+    flexDirection: "row",
+    alignItems: "center",
     marginBottom: 15,
   },
   backIcon: {
@@ -267,7 +268,7 @@ export default StyleSheet.create({
   },
   backLabel: {
     fontSize: 16,
-    fontWeight: '600',
+    fontWeight: "600",
     color: PrimaryColor,
   },
   statsText: {
@@ -276,5 +277,5 @@ export default StyleSheet.create({
   },
   listContentPadding: {
     paddingBottom: 50,
-  }
+  },
 });

@@ -1,6 +1,6 @@
-import fetch from "node-fetch"
+import fetch from "node-fetch";
 
-import API_URL from "./apiUrl.js"
+import API_URL from "./apiUrl.js";
 
 const DELETE_USERS = `
   mutation DeleteUsers($where: UserWhere) {
@@ -8,101 +8,99 @@ const DELETE_USERS = `
       nodesDeleted
     }
   }
-`
+`;
 
 const SIGN_IN = `
 mutation SignIn($username: String!, $password: String!) {
   signIn(username: $username, password: $password)
 }
-`
+`;
 
 const SIGN_UP = `
 mutation SignUp($username: String!, $password: String!) {
   signUp(username: $username, password: $password)
-}`
-
-
+}`;
 
 export function deleteUser(username, token) {
   return fetch(API_URL, {
-    method: 'POST',
+    method: "POST",
     headers: {
-      'Content-Type': 'application/json',
-      'authorization': 'Bearer ' + token
+      "Content-Type": "application/json",
+      authorization: "Bearer " + token,
     },
     body: JSON.stringify({
       query: DELETE_USERS,
       variables: {
-        "where": {
-          "username": username
-        }
+        where: {
+          username: username,
+        },
+      },
+    }),
+  })
+    .then((response) => response.json())
+    .then((jsonResponse) => {
+      if (jsonResponse.errors != null) {
+        throw jsonResponse.errors[0];
       }
+      return jsonResponse.data.deleteUsers.nodesDeleted;
     })
-  })
-  .then(response => response.json())
-  .then(jsonResponse => {
-    if (jsonResponse.errors != null) {
-      throw jsonResponse.errors[0]
-    }
-    return jsonResponse.data.deleteUsers.nodesDeleted
-  })
-  .catch(error => {
-    throw error
-  })
+    .catch((error) => {
+      throw error;
+    });
 }
 
 export function signIn(username, password) {
   return fetch(API_URL, {
-    method: 'POST',
+    method: "POST",
     headers: {
-      'Content-Type': 'application/json'
+      "Content-Type": "application/json",
     },
     body: JSON.stringify({
       query: SIGN_IN,
       variables: {
         username: username,
-        password: password
-      }
-    })
+        password: password,
+      },
+    }),
   })
-    .then(response => {
-      return response.json()
+    .then((response) => {
+      return response.json();
     })
-    .then(jsonResponse => {
+    .then((jsonResponse) => {
       if (jsonResponse.errors != null) {
-        throw jsonResponse.errors[0]
+        throw jsonResponse.errors[0];
       }
-      return jsonResponse.data.signIn
+      return jsonResponse.data.signIn;
     })
-    .catch(error => {
-      throw error
-    })
+    .catch((error) => {
+      throw error;
+    });
 }
 
 export function signUp(username, password) {
   return fetch(API_URL, {
-    method: 'POST',
+    method: "POST",
     headers: {
-      'Content-Type': 'application/json'
+      "Content-Type": "application/json",
     },
     body: JSON.stringify({
       query: SIGN_UP,
       variables: {
         username: username,
-        password: password
-      }
-    })
+        password: password,
+      },
+    }),
   })
-    .then(response => {
-      return response.json()
+    .then((response) => {
+      return response.json();
     })
-    .then(jsonResponse => {
+    .then((jsonResponse) => {
       if (jsonResponse.errors != null) {
-        throw jsonResponse.errors[0]
+        throw jsonResponse.errors[0];
       }
-      return jsonResponse.data.signUp
+      return jsonResponse.data.signUp;
     })
-    .catch(error => {
-      throw error
-    })
+    .catch((error) => {
+      throw error;
+    });
 }
