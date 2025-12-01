@@ -7,13 +7,14 @@ import styles from "../../styles";
 export default function TodoListStack(props) {
   return (
     <View style={styles.border}>
-      <FlatList //contentContainerStyle={styles.list}
+      <FlatList
         data={props.data}
+        keyExtractor={(item) => item.id.toString()}
         renderItem={({ item }) => (
           <TodoListStackItem
             item={item}
-            export={props.export}
-            delete={props.delete}
+            onExport={props.onExport}
+            onDelete={props.onDelete}
             navigation={props.navigation}
           />
         )}

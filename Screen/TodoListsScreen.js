@@ -60,8 +60,8 @@ export default function TodoListScreen({ navigation }) {
       {/* Liste des TodoLists */}
       <TodoListStack
         data={todoLists}
-        export={exportList}
-        delete={deleteTodoListS}
+        onExport={exportList}
+        onDelete={deleteTodoListS}
         navigation={navigation}
       />
     </View>

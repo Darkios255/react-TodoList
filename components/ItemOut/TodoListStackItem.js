@@ -22,7 +22,10 @@ export default function TodoListStackItem(props) {
       <View style={styles.inlineRow}>
         <TouchableOpacity
           style={styles.iconButton}
-          onPress={() => props.export(props.item.id, props.item.title)}
+          onPress={() => {
+            console.log("Export clicked:", props.item.id, props.item.title);
+            props.onExport(props.item.id, props.item.title);
+          }}
         >
           <Image
             source={require("../../assets/export.png")}
@@ -32,7 +35,7 @@ export default function TodoListStackItem(props) {
 
         <TouchableOpacity
           style={styles.iconButton}
-          onPress={() => props.delete(props.item.id)}
+          onPress={() => props.onDelete(props.item.id)}
         >
           <Image
             source={require("../../assets/trash-can-outline.png")}
