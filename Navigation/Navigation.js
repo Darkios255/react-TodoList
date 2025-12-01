@@ -47,8 +47,9 @@ export default function Navigation () {
                     }}
                 >
                   <Tab.Screen name='Accueil' component={HomeScreen} />
-                  {/* Renommé de "Navigation" à "Mes Listes" */}
-                  <Tab.Screen name='Mes Listes' component={NavigationTodo} />
+                  <Tab.Screen name='Mes Listes' component={NavigationTodo}
+                    options={{ unmountOnBlur: true }}
+                  />
                 </Tab.Navigator>
               )}
             </NavigationContainer>
