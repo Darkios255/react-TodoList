@@ -6,7 +6,6 @@ import { createTodo, updateTodo, deleteTodo} from '../API/todo'
 import TodoItem from './TodoItem';
 import styles from "../../styles";
 
-// Helper ProgressBar (inchangé)
 const CleanProgressBar = ({ total, done }) => {
     const percent = total > 0 ? (done / total) * 100 : 0;
     return (
@@ -81,7 +80,6 @@ export default function TodoListUi(props){
             case 'active': return todos.filter(item => !item.done)
             default: return todos
     }}
-    // ... (Fin des fonctions logiques) ...
 
 
     return (
@@ -124,8 +122,8 @@ export default function TodoListUi(props){
                         placeholder='Nouvelle tâche...'
                         value={newTodoText}
                     />
-                    <TouchableOpacity style={[styles.button, {width: 80, marginVertical: 0}]} onPress={addNewTodo}>
-                        <Text style={styles.buttonText}>+ Ajouter</Text>
+                    <TouchableOpacity style={[styles.button, {paddingHorizontal: 15, marginVertical: 0}]} onPress={addNewTodo}>
+                        <Text style={styles.buttonText}>Ajouter</Text>
                     </TouchableOpacity>
                 </View>
                 <Text style={styles.ErrorText}>{errorMsg}</Text>
