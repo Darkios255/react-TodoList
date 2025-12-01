@@ -1,12 +1,12 @@
 import React, { useContext } from 'react'
 import { View, Text, TouchableOpacity, Alert } from 'react-native'
 import { UsernameContext, TokenContext } from '../Context/Context'
-import { deleteUser } from '../components/API/sign' // <-- Import ajouté
+import { deleteUser } from '../components/API/sign'
 import styles from '../styles'
 
 export default function HomeScreen() {
     const [username, setUsername] = useContext(UsernameContext)
-    const [token, setToken] = useContext(TokenContext) // <-- Récupération du token (plus de '_')
+    const [token, setToken] = useContext(TokenContext)
 
     const handleDeleteAccount = () => {
         Alert.alert(
@@ -18,10 +18,8 @@ export default function HomeScreen() {
                     text: "Supprimer", 
                     style: "destructive", 
                     onPress: () => {
-                        // Appel de l'API
                         deleteUser(username, token)
                             .then(() => {
-                                // Si succès, on déconnecte l'utilisateur localement
                                 setToken(null);
                                 setUsername(null);
                             })
@@ -37,24 +35,22 @@ export default function HomeScreen() {
 
     return (
       <View style={styles.container}>
-        <View style={styles.card}>
+        <View style={{marginBottom: 30}}>
             <Text style={styles.title}>Bonjour, {username}</Text>
             <Text style={styles.subText}>
                 Simple application de gestion de tâches
             </Text>
-            <Text style={{color: '#334155', lineHeight: 22}}>
-                Ici, vous pouvez organiser gerer vos listes de tâches.
+            <Text style={{color: '#334155', lineHeight: 22, marginTop: 10}}>
+                Ici, vous pouvez organiser et gérer vos listes de tâches.
             </Text>
         </View>
 
-        <View style={{marginTop: 20}}>
-             <TouchableOpacity 
-                style={styles.buttonDanger}
-                onPress={handleDeleteAccount} 
-            >
-                <Text style={styles.buttonText}>Supprimer mon compte</Text>
-            </TouchableOpacity>
-        </View>
+        <TouchableOpacity 
+            style={styles.buttonDanger}
+            onPress={handleDeleteAccount} 
+        >
+            <Text style={styles.buttonText}>Supprimer mon compte</Text>
+        </TouchableOpacity>
       </View>
     )
 }
