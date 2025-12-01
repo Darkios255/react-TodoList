@@ -2,30 +2,22 @@ import React from "react";
 import { View, TouchableOpacity, Text, Image } from "react-native";
 import styles from "../../styles";
 
-export default function TodoListStackItem(props) {
+export default function TodoListStackItem({ item, navigation, onExport, onDelete }) {
   return (
     <View style={styles.card}>
       {/* Zone cliquable pour la navigation (titre seulement) */}
       <TouchableOpacity
         style={styles.flex1}
-        onPress={() =>
-          props.navigation.navigate("Details", {
-            id: props.item.id,
-            title: props.item.title,
-          })
-        }
+        onPress={() => navigation.navigate("Details", { id: item.id, title: item.title })}
       >
-        <Text style={styles.itemTitle}>{props.item.title}</Text>
+        <Text style={styles.itemTitle}>{item.title}</Text>
       </TouchableOpacity>
 
       {/* Boutons d'action (export + supprimer) */}
       <View style={styles.inlineRow}>
         <TouchableOpacity
           style={styles.iconButton}
-          onPress={() => {
-            console.log("Export clicked:", props.item.id, props.item.title);
-            props.onExport(props.item.id, props.item.title);
-          }}
+          onPress={() => onExport(item.id, item.title)}
         >
           <Image
             source={require("../../assets/export.png")}
@@ -35,7 +27,7 @@ export default function TodoListStackItem(props) {
 
         <TouchableOpacity
           style={styles.iconButton}
-          onPress={() => props.onDelete(props.item.id)}
+          onPress={() => onDelete(item.id)}
         >
           <Image
             source={require("../../assets/trash-can-outline.png")}

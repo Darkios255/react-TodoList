@@ -1,41 +1,30 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
 import { Image, View, Text, StyleSheet, Switch, Pressable } from "react-native";
 
-export default function TodoItem(props) {
-  const [done, setDone] = useState(props.item.done);
-
-  useEffect(() => {
-    setDone(props.item.done);
-  }, [props.item.done]);
-
-  const stateChange = (id, state) => {
-    setDone(state);
-    props.change(id, state);
-  };
-
+export default function TodoItem({ item, change, deleteTodo }) {
   return (
     <View style={localStyles.content}>
       <Switch
-        value={done}
-        onValueChange={(state) => stateChange(props.item.id, state)}
+        value={item.done}
+        onValueChange={(state) => change(item.id, state)}
       />
 
       <Text
         style={[
           localStyles.text_item,
-          { textDecorationLine: done ? "line-through" : "none" },
+          item.done && localStyles.textDone,
         ]}
       >
-        {props.item.content}
+        {item.content}
       </Text>
 
       <Pressable
-        style={({ pressed }) => [pressed && { opacity: 0.7 }]}
-        onPress={() => props.deleteTodo(props.item.id)}
+        style={({ pressed }) => [pressed && localStyles.pressed]}
+        onPress={() => deleteTodo(item.id)}
       >
         <Image
           source={require("../../assets/trash-can-outline.png")}
-          style={{ height: 24, width: 24 }}
+          style={localStyles.icon}
         />
       </Pressable>
     </View>
@@ -54,5 +43,15 @@ const localStyles = StyleSheet.create({
     flex: 1,
     fontSize: 16,
     color: "#334155",
+  },
+  textDone: {
+    textDecorationLine: "line-through",
+  },
+  icon: {
+    height: 24,
+    width: 24,
+  },
+  pressed: {
+    opacity: 0.7,
   },
 });

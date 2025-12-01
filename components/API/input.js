@@ -5,11 +5,31 @@ import { UsernameContext, TokenContext } from "../../Context/Context";
 import { createTodoList } from "./todoListAPI";
 import styles from "../../styles";
 
-export default function Input(props) {
+export default function Input({ refresh }) {
   const [name, setName] = useState("");
   const [token] = useContext(TokenContext);
   const [username] = useContext(UsernameContext);
-  const [errorMsg, seterrorMsg] = useState("");
+  const [errorMsg, setErrorMsg] = useState("");
+
+  const handleCreate = async () => {
+    if (name === "") {
+      setErrorMsg("Le nom ne doit pas être vide");
+      return;
+    }
+
+    try {
+      const res = await createTodoList(username, name, token);
+      if (res.id) {
+        refresh(res);
+        setName("");
+        setErrorMsg("");
+      } else {
+        console.error("API response incorrect :", res);
+      }
+    } catch (error) {
+      console.error("Error creating todoList :", error);
+    }
+  };
 
   return (
     <View>
@@ -27,24 +47,7 @@ export default function Input(props) {
             styles.buttonNarrow,
             pressed && styles.pressed,
           ]}
-          onPress={async () => {
-            if (name === "") {
-              seterrorMsg("Le nom ne doit pas être vide");
-            } else {
-              try {
-                const res = await createTodoList(username, name, token);
-                if (res.id) {
-                  props.refresh(res);
-                  setName("");
-                  seterrorMsg("");
-                } else {
-                  console.error("API response incorrect :", res);
-                }
-              } catch (error) {
-                console.error("Error creating todoList :", error);
-              }
-            }
-          }}
+          onPress={handleCreate}
         >
           <Text style={styles.buttonText}>Créer</Text>
         </Pressable>

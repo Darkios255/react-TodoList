@@ -14,51 +14,52 @@ import styles from "../styles";
 const Tab = createBottomTabNavigator();
 const AuthStack = createNativeStackNavigator();
 
-export default function Navigation() {
+function LogoutButton() {
+  const [, setToken] = useContext(TokenContext);
+  const [, setUsername] = useContext(UsernameContext);
+
   return (
-    <TokenContext.Consumer>
-      {([token, setToken]) => (
-        <UsernameContext.Consumer>
-          {([username, setUsername]) => (
-            <NavigationContainer>
-              {token == null ? (
-                <AuthStack.Navigator screenOptions={{ headerShown: false }}>
-                  <AuthStack.Screen name="Auth" component={SignInScreen} />
-                </AuthStack.Navigator>
-              ) : (
-                <Tab.Navigator
-                  screenOptions={{
-                    headerStyle: styles.headerStyle,
-                    headerTitleStyle: styles.headerTitleStyle,
-                    headerTitle: "TodoApp",
-                    headerRight: () => (
-                      <Pressable
-                        style={({ pressed }) => [
-                          styles.headerActionButton,
-                          pressed && styles.pressed,
-                        ]}
-                        onPress={() => {
-                          setUsername(null);
-                          setToken(null);
-                        }}
-                      >
-                        <Text style={styles.headerActionText}>Déconnexion</Text>
-                      </Pressable>
-                    ),
-                  }}
-                >
-                  <Tab.Screen name="Accueil" component={HomeScreen} />
-                  <Tab.Screen
-                    name="Mes Listes"
-                    component={NavigationTodo}
-                    options={{ unmountOnBlur: true }}
-                  />
-                </Tab.Navigator>
-              )}
-            </NavigationContainer>
-          )}
-        </UsernameContext.Consumer>
+    <Pressable
+      style={({ pressed }) => [
+        styles.headerActionButton,
+        pressed && styles.pressed,
+      ]}
+      onPress={() => {
+        setUsername(null);
+        setToken(null);
+      }}
+    >
+      <Text style={styles.headerActionText}>Déconnexion</Text>
+    </Pressable>
+  );
+}
+
+export default function Navigation() {
+  const [token] = useContext(TokenContext);
+
+  return (
+    <NavigationContainer>
+      {token == null ? (
+        <AuthStack.Navigator screenOptions={{ headerShown: false }}>
+          <AuthStack.Screen name="Auth" component={SignInScreen} />
+        </AuthStack.Navigator>
+      ) : (
+        <Tab.Navigator
+          screenOptions={{
+            headerStyle: styles.headerStyle,
+            headerTitleStyle: styles.headerTitleStyle,
+            headerTitle: "TodoApp",
+            headerRight: () => <LogoutButton />,
+          }}
+        >
+          <Tab.Screen name="Accueil" component={HomeScreen} />
+          <Tab.Screen
+            name="Mes Listes"
+            component={NavigationTodo}
+            options={{ unmountOnBlur: true }}
+          />
+        </Tab.Navigator>
       )}
-    </TokenContext.Consumer>
+    </NavigationContainer>
   );
 }

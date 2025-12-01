@@ -4,18 +4,18 @@ import { FlatList, View } from "react-native";
 import TodoListStackItem from "./TodoListStackItem";
 import styles from "../../styles";
 
-export default function TodoListStack(props) {
+export default function TodoListStack({ data, onExport, onDelete, navigation }) {
   return (
     <View style={styles.border}>
       <FlatList
-        data={props.data}
+        data={data}
         keyExtractor={(item) => item.id.toString()}
         renderItem={({ item }) => (
           <TodoListStackItem
             item={item}
-            onExport={props.onExport}
-            onDelete={props.onDelete}
-            navigation={props.navigation}
+            onExport={onExport}
+            onDelete={onDelete}
+            navigation={navigation}
           />
         )}
       />
