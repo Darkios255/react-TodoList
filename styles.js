@@ -278,4 +278,23 @@ export default StyleSheet.create({
   listContentPadding: {
     paddingBottom: 50,
   },
+  todoListItemRow: {
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "space-between",
+    flex: 1,
+  },
+  itemTitle: {
+    flex: 1,
+    fontSize: 16,
+    color: "#334155",
+  },
+  iconButton: {
+    marginLeft: 15,
+    padding: 4,
+  },
+  iconSmall: {
+    height: 24,
+    width: 24,
+  },
 });

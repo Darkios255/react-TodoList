@@ -52,14 +52,7 @@ export default function TodoListScreen({ navigation }) {
   return (
     <View style={styles.container}>
       {/* Zone de création épurée (Carte blanche) */}
-      <View
-        style={{
-          backgroundColor: "white",
-          padding: 15,
-          borderRadius: 10,
-          marginBottom: 20,
-        }}
-      >
+      <View style={styles.surfaceCard}>
         {/* On passe la fonction refresh au composant Input */}
         <Input refresh={refreshTodoLists} />
       </View>
