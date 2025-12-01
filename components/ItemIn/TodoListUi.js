@@ -114,7 +114,7 @@ export default function TodoListUi(props){
 
             {/* 2. Zone d'ajout (Card blanche) */}
             <View style={{backgroundColor: 'white', padding: 15, borderRadius: 10, marginBottom: 20}}>
-                <Text style={{fontWeight:'500', marginBottom: 10}}>Ajouter une tâche</Text>
+                <Text style={styles.inputLabel}>Ajouter une tâche</Text>
                 <View style={{flexDirection: 'row', gap: 10}}>
                     <TextInput 
                         style={[styles.input, {flex: 1, marginBottom: 0}]} // Override margin
@@ -122,8 +122,8 @@ export default function TodoListUi(props){
                         placeholder='Nouvelle tâche...'
                         value={newTodoText}
                     />
-                    <TouchableOpacity style={[styles.button, {width: 80, margin: 0, marginVertical: 0}]} onPress={addNewTodo}>
-                        <Text style={styles.buttonText}>+ Ajouter</Text>
+                    <TouchableOpacity style={[styles.button, {paddingHorizontal: 15, margin: 0, marginVertical: 0}]} onPress={addNewTodo}>
+                        <Text style={styles.buttonText}>ajouter</Text>
                     </TouchableOpacity>
                 </View>
                 <Text style={styles.ErrorText}>{errorMsg}</Text>

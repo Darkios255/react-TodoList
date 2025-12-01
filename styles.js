@@ -160,5 +160,12 @@ export default StyleSheet.create({
     color: DangerColor,
     marginBottom: 10,
     fontSize: 12,
+  },
+  // Nouveau style pour les labels d'input
+  inputLabel: {
+    fontSize: 14,
+    color: SecondaryColor, // #64748B - gris moyen
+    fontWeight: '500',
+    marginBottom: 10,
   }
 });

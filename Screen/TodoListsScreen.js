@@ -38,7 +38,7 @@ export default function TodoListScreen({ navigation }) {
 
             {/* L'Input est maintenant en HAUT (Comme sur le screen) */}
             <View style={{ backgroundColor: 'white', padding: 15, borderRadius: 10, marginBottom: 20 }}>
-                <Text style={{marginBottom: 10, fontWeight: '500'}}>Créer une nouvelle liste</Text>
+                <Text style={styles.inputLabel}>Créer une nouvelle liste</Text>
                 <Input refresh={refreshTodoLists} />
             </View>
 

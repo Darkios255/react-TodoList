@@ -32,7 +32,6 @@ export default function SignInScreen () {
                           .then(token => {
                               setToken(token)
                               setUsername(username)
-                              navigation.navigate("SignUp")
                           })
                           .catch(error => {
                               seterrorMsg(error.message)

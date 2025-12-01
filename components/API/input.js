@@ -15,6 +15,7 @@ export default function Input(props) {
     return (
         <View style={styles.container}>
             <Text style={styles.ErrorText}>{errorMsg}</Text>
+            <Text style={styles.inputLabel}>Nom de la liste</Text>
             <TextInput style={styles.input}
                 placeholder="New list name"
                 onChangeText={setName}
