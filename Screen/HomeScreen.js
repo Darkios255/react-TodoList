@@ -1,11 +1,12 @@
 import React, { useContext } from 'react'
 import { View, Text, TouchableOpacity, Alert } from 'react-native'
 import { UsernameContext, TokenContext } from '../Context/Context'
+import { deleteUser } from '../components/API/sign' // <-- Import ajouté
 import styles from '../styles'
 
 export default function HomeScreen() {
     const [username, setUsername] = useContext(UsernameContext)
-    const [_, setToken] = useContext(TokenContext)
+    const [token, setToken] = useContext(TokenContext) // <-- Récupération du token (plus de '_')
 
     const handleDeleteAccount = () => {
         Alert.alert(
@@ -17,9 +18,17 @@ export default function HomeScreen() {
                     text: "Supprimer", 
                     style: "destructive", 
                     onPress: () => {
-                        // appel api pour supprimer le compte
-                        setToken(null);
-                        setUsername('');
+                        // Appel de l'API
+                        deleteUser(username, token)
+                            .then(() => {
+                                // Si succès, on déconnecte l'utilisateur localement
+                                setToken(null);
+                                setUsername(null);
+                            })
+                            .catch(err => {
+                                console.error(err);
+                                Alert.alert("Erreur", "Impossible de supprimer le compte. " + err.message);
+                            });
                     }
                 }
             ]
@@ -28,18 +37,16 @@ export default function HomeScreen() {
 
     return (
       <View style={styles.container}>
-        {/* Carte de Bienvenue */}
         <View style={styles.card}>
-            <Text style={styles.title}>Bonjour {username}</Text>
-            <Text style={styles.subTitle}>
-                Voici TodoApp.
+            <Text style={styles.title}>Bonjour, {username}</Text>
+            <Text style={styles.subText}>
+                Simple application de gestion de tâches
             </Text>
             <Text style={{color: '#334155', lineHeight: 22}}>
-                Une application simple pour gerer des listes de tâches.
+                Ici, vous pouvez organiser gerer vos listes de tâches.
             </Text>
         </View>
 
-        {/* Bouton de suppression de compte */}
         <View style={{marginTop: 20}}>
              <TouchableOpacity 
                 style={styles.buttonDanger}
