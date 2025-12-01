@@ -1,5 +1,5 @@
 import React, { useContext } from 'react'
-import { View, Text, TouchableOpacity, Alert } from 'react-native'
+import { View, Text, TouchableOpacity, Alert, Platform } from 'react-native'
 import { UsernameContext, TokenContext } from '../Context/Context'
 import { deleteUser } from '../components/API/sign'
 import styles from '../styles'
@@ -9,30 +9,44 @@ export default function HomeScreen() {
     const [token, setToken] = useContext(TokenContext) 
 
     const handleDeleteAccount = () => {
-        Alert.alert(
-            "Supprimer le compte",
-            "Êtes-vous sûr de vouloir supprimer votre compte ? Cette action est irréversible.",
-            [
-                { text: "Annuler", style: "cancel" },
-                { 
-                    text: "Supprimer", 
-                    style: "destructive", 
-                    onPress: () => {
-                        // Appel de l'API avec le token
-                        deleteUser(username, token)
-                            .then(() => {
-                                // Si succès, on déconnecte l'utilisateur localement
-                                setToken(null);
-                                setUsername(null);
-                            })
-                            .catch(err => {
-                                console.error(err);
-                                Alert.alert("Erreur", "Impossible de supprimer le compte. " + err.message);
-                            });
+        if (Platform.OS === 'web') {
+            // Pour le web, utiliser confirm
+            if (window.confirm("Êtes-vous sûr de vouloir supprimer votre compte ? Cette action est irréversible.")) {
+                deleteUser(username, token)
+                    .then(() => {
+                        setToken(null);
+                        setUsername(null);
+                    })
+                    .catch(err => {
+                        console.error(err);
+                        alert("Erreur: Impossible de supprimer le compte. " + err.message);
+                    });
+            }
+        } else {
+            // Pour mobile (iOS/Android)
+            Alert.alert(
+                "Supprimer le compte",
+                "Êtes-vous sûr de vouloir supprimer votre compte ? Cette action est irréversible.",
+                [
+                    { text: "Annuler", style: "cancel" },
+                    { 
+                        text: "Supprimer", 
+                        style: "destructive", 
+                        onPress: () => {
+                            deleteUser(username, token)
+                                .then(() => {
+                                    setToken(null);
+                                    setUsername(null);
+                                })
+                                .catch(err => {
+                                    console.error(err);
+                                    Alert.alert("Erreur", "Impossible de supprimer le compte. " + err.message);
+                                });
+                        }
                     }
-                }
-            ]
-        );
+                ]
+            );
+        }
     }
 
     return (
