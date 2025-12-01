@@ -1,7 +1,7 @@
 import React, { useContext, useEffect, useState } from "react";
 import { View, TextInput, TouchableOpacity, Text, FlatList, ScrollView, Image } from 'react-native';
 import { TokenContext } from '../../Context/Context'
-import { createTodo, updateTodo, deleteTodo} from '../API/todo'
+import { createTodo, updateTodo, deleteTodo, updateAllTodos } from '../API/todo'
 
 import TodoItem from './TodoItem';
 import styles from "../../styles";
@@ -63,15 +63,20 @@ export default function TodoListUi(props){
         setTodos(newTodos)
     }
 
-    const setDoneState = (value) => {
+    const setDoneState = async (value) => {
+        // 1. Mise à jour optimiste de l'UI
         const newTodos = todos.map(element => {
-             if (element.done !== value) {
-                 updateTodo(element.id, value, token)
-                 return { ...element, done: value };
-             }
-             return element
+             return { ...element, done: value };
         });
         setTodos(newTodos);
+
+        try {
+            // 2. Appel API unique pour tout mettre à jour
+            await updateAllTodos(props.listId, value, token);
+            console.log("Toutes les tâches ont été mises à jour avec succès");
+        } catch (error) {
+            console.error("Erreur lors de la mise à jour de masse", error);
+        }
     }
 
     const filterTodos = () => {

@@ -176,3 +176,48 @@ export function deleteTodo(id, token) {
       throw error
     })
 }
+
+const UPDATE_TODOS_BATCH = `
+mutation UpdateTodos($where: TodoWhere, $update: TodoUpdateInput) {
+  updateTodos(where: $where, update: $update) {
+    todos {
+      id
+      done
+    }
+  }
+}
+`
+
+export function updateAllTodos(listId, doneState, token) {
+  return fetch(API_URL, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+      'authorization': 'Bearer ' + token
+    },
+    body: JSON.stringify({
+      query: UPDATE_TODOS_BATCH,
+      variables: {
+        "where": {
+          "belongsTo": {
+            "id": listId
+          }
+        },
+        "update": {
+          "done": doneState
+        }
+      }
+    })
+  })
+  .then(response => response.json())
+  .then(jsonResponse => {
+    if (jsonResponse.errors != null) {
+      throw jsonResponse.errors[0]
+    }
+    return jsonResponse.data.updateTodos.todos
+  })
+  .catch(error => {
+    console.log('error API', error.message)
+    throw error
+  })
+}
