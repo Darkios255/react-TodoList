@@ -3,7 +3,7 @@ import {
   View,
   Text,
   TextInput,
-  TouchableOpacity,
+  Pressable,
   ActivityIndicator,
 } from "react-native";
 
@@ -12,15 +12,12 @@ import { TokenContext, UsernameContext } from "../Context/Context";
 import { signIn, signUp } from "../components/API/sign";
 
 export default function SignInScreen() {
-  // État pour savoir si on est en mode "Inscription" ou "Connexion"
   const [isSignUp, setIsSignUp] = useState(false);
-
   const [username, setUsernameState] = useState("");
   const [password, setPassword] = useState("");
   const [errorMsg, seterrorMsg] = useState("");
   const [loading, setLoading] = useState(false);
 
-  // Utilisation des Hooks pour le contexte (plus propre que Consumer)
   const [_, setToken] = useContext(TokenContext);
   const [__, setGlobalUsername] = useContext(UsernameContext);
 
@@ -32,11 +29,8 @@ export default function SignInScreen() {
     seterrorMsg("");
 
     try {
-      // On choisit la fonction à appeler selon le mode
       const apiCall = isSignUp ? signUp : signIn;
       const token = await apiCall(username, password);
-
-      // Si succès, on met à jour le contexte (ce qui changera l'écran automatiquement)
       setGlobalUsername(username);
       setToken(token);
     } catch (error) {
@@ -47,21 +41,16 @@ export default function SignInScreen() {
   };
 
   return (
-    <View style={[styles.container, { justifyContent: "center" }]}>
+    <View style={[styles.container, styles.centeredContainer]}>
       <View style={styles.authCard}>
-        {/* Titre dynamique */}
-        <Text style={[styles.title, { textAlign: "center", marginBottom: 20 }]}>
+        <Text style={[styles.title, styles.textCenter, styles.mb20]}>
           {isSignUp ? "Créer un compte" : "Bienvenue"}
         </Text>
 
-        <View style={{ marginBottom: 15 }}>
-          <Text
-            style={{ marginBottom: 5, fontWeight: "500", color: "#0F172A" }}
-          >
-            Nom d'utilisateur
-          </Text>
+        <View style={styles.mb15}>
+          <Text style={styles.inputLabel}>Nom d'utilisateur</Text>
           <TextInput
-            style={[styles.input, { marginBottom: 0 }]}
+            style={styles.input}
             placeholder="Votre nom..."
             onChangeText={setUsernameState}
             value={username}
@@ -69,14 +58,10 @@ export default function SignInScreen() {
           />
         </View>
 
-        <View style={{ marginBottom: 20 }}>
-          <Text
-            style={{ marginBottom: 5, fontWeight: "500", color: "#0F172A" }}
-          >
-            Mot de passe
-          </Text>
+        <View style={styles.mb20}>
+          <Text style={styles.inputLabel}>Mot de passe</Text>
           <TextInput
-            style={[styles.input, { marginBottom: 0 }]}
+            style={styles.input}
             placeholder="••••••••"
             secureTextEntry={true}
             onChangeText={setPassword}
@@ -85,13 +70,11 @@ export default function SignInScreen() {
         </View>
 
         {errorMsg ? (
-          <Text style={[styles.ErrorText, { textAlign: "center" }]}>
-            {errorMsg}
-          </Text>
+          <Text style={[styles.ErrorText, styles.textCenter]}>{errorMsg}</Text>
         ) : null}
 
-        <TouchableOpacity
-          style={styles.button}
+        <Pressable
+          style={({ pressed }) => [styles.button, pressed && styles.pressed]}
           onPress={handleSubmit}
           disabled={loading}
         >
@@ -102,29 +85,22 @@ export default function SignInScreen() {
               {isSignUp ? "S'inscrire" : "Se connecter"}
             </Text>
           )}
-        </TouchableOpacity>
+        </Pressable>
 
-        {/* Le lien pour basculer entre les modes */}
-        <View
-          style={{
-            marginTop: 20,
-            flexDirection: "row",
-            justifyContent: "center",
-          }}
-        >
-          <Text style={{ color: "#64748B" }}>
+        <View style={styles.switchAuthRow}>
+          <Text style={styles.secondaryText}>
             {isSignUp ? "Déjà un compte ? " : "Pas encore de compte ? "}
           </Text>
-          <TouchableOpacity
+          <Pressable
             onPress={() => {
-              setIsSignUp(!isSignUp); // On inverse le mode
+              setIsSignUp(!isSignUp);
               seterrorMsg("");
             }}
           >
-            <Text style={{ color: "#0F172A", fontWeight: "bold" }}>
+            <Text style={styles.linkText}>
               {isSignUp ? "Se connecter" : "S'inscrire"}
             </Text>
-          </TouchableOpacity>
+          </Pressable>
         </View>
       </View>
     </View>

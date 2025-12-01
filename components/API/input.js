@@ -1,5 +1,5 @@
 import React, { useState, useContext } from "react";
-import { View, Text, TextInput, TouchableOpacity } from "react-native";
+import { View, Text, TextInput, Pressable } from "react-native";
 
 import { UsernameContext, TokenContext } from "../../Context/Context";
 import { createTodoList } from "./todoListAPI";
@@ -21,11 +21,14 @@ export default function Input(props) {
           value={name}
         />
 
-        {/* Bouton compact à droite */}
-        <TouchableOpacity
-          style={[styles.button, styles.buttonNarrow]}
+        <Pressable
+          style={({ pressed }) => [
+            styles.button,
+            styles.buttonNarrow,
+            pressed && styles.pressed,
+          ]}
           onPress={async () => {
-            if (name == "") {
+            if (name === "") {
               seterrorMsg("Le nom ne doit pas être vide");
             } else {
               try {
@@ -33,7 +36,7 @@ export default function Input(props) {
                 if (res.id) {
                   props.refresh(res);
                   setName("");
-                  seterrorMsg(""); // Reset erreur
+                  seterrorMsg("");
                 } else {
                   console.error("API response incorrect :", res);
                 }
@@ -44,9 +47,8 @@ export default function Input(props) {
           }}
         >
           <Text style={styles.buttonText}>Créer</Text>
-        </TouchableOpacity>
+        </Pressable>
       </View>
-      {/* Message d'erreur en dessous si besoin, discret */}
       <Text style={styles.ErrorText}>{errorMsg}</Text>
     </View>
   );

@@ -1,4 +1,4 @@
-import { StyleSheet } from "react-native";
+import { StyleSheet, Platform } from "react-native";
 
 // Palette inspirée du design web (Shadcn/Tailwind)
 const BackgroundColor = "#F3F4F6"; // Gris très clair pour le fond de l'app
@@ -8,11 +8,36 @@ const SecondaryColor = "#64748B"; // Gris pour les textes secondaires
 const BorderColor = "#E2E8F0"; // Gris clair pour les bordures
 const DangerColor = "#EF4444"; // Rouge pour supprimer
 
+const cardShadow = Platform.select({
+  web: { boxShadow: "0px 1px 2px rgba(0, 0, 0, 0.1)" },
+  default: {
+    shadowColor: "#000",
+    shadowOffset: { width: 0, height: 1 },
+    shadowOpacity: 0.1,
+    shadowRadius: 2,
+    elevation: 3,
+  },
+});
+
+const authCardShadow = Platform.select({
+  web: { boxShadow: "0px 2px 4px rgba(0, 0, 0, 0.1)" },
+  default: {
+    shadowColor: "#000",
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.1,
+    shadowRadius: 4,
+    elevation: 5,
+  },
+});
+
 export default StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: BackgroundColor,
     padding: 15,
+  },
+  centeredContainer: {
+    justifyContent: "center",
   },
   // Style global pour les textes
   title: {
@@ -35,6 +60,21 @@ export default StyleSheet.create({
     color: "#334155",
     lineHeight: 22,
   },
+  secondaryText: {
+    color: SecondaryColor,
+  },
+  linkText: {
+    color: PrimaryColor,
+    fontWeight: "bold",
+  },
+  textCenter: {
+    textAlign: "center",
+  },
+
+  // Spacing
+  mb15: { marginBottom: 15 },
+  mb20: { marginBottom: 20 },
+  mt20: { marginTop: 20 },
 
   // --- Inputs ---
   input: {
@@ -50,6 +90,12 @@ export default StyleSheet.create({
   inputInline: {
     flex: 1,
     marginBottom: 0,
+  },
+  inputLabel: {
+    fontSize: 14,
+    color: SecondaryColor, // #64748B - gris moyen
+    fontWeight: "500",
+    marginBottom: 5,
   },
 
   // --- Boutons ---
@@ -76,6 +122,16 @@ export default StyleSheet.create({
     fontSize: 14,
     fontWeight: "600",
   },
+  buttonDanger: {
+    backgroundColor: DangerColor,
+    paddingVertical: 12,
+    paddingHorizontal: 20,
+    borderRadius: 8,
+    alignItems: "center",
+    justifyContent: "center",
+    marginVertical: 10,
+    width: "100%",
+  },
   // Petit bouton contour (pour "Tout cocher", "Déconnexion" etc.)
   outlineButton: {
     backgroundColor: CardColor,
@@ -91,6 +147,9 @@ export default StyleSheet.create({
     color: PrimaryColor,
     fontSize: 12,
     fontWeight: "600",
+  },
+  pressed: {
+    opacity: 0.7,
   },
 
   // --- Cartes (Listes) ---
@@ -108,27 +167,18 @@ export default StyleSheet.create({
     flexDirection: "row",
     alignItems: "center",
     justifyContent: "space-between",
-    // Ombre
-    shadowColor: "#000",
-    shadowOffset: { width: 0, height: 1 },
-    shadowOpacity: 0.1,
-    shadowRadius: 2,
-    elevation: 3,
     borderColor: BorderColor,
     borderWidth: 1,
+    ...cardShadow,
   },
   authCard: {
     backgroundColor: CardColor,
     borderRadius: 12,
     padding: 25,
     width: "100%",
-    shadowColor: "#000",
-    shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.1,
-    shadowRadius: 4,
-    elevation: 5,
     borderColor: BorderColor,
     borderWidth: 1,
+    ...authCardShadow,
   },
   surfaceCard: {
     backgroundColor: CardColor,
@@ -204,6 +254,11 @@ export default StyleSheet.create({
   flex1: {
     flex: 1,
   },
+  switchAuthRow: {
+    marginTop: 20,
+    flexDirection: "row",
+    justifyContent: "center",
+  },
 
   // --- Divers ---
   progressBarContainer: {
@@ -230,27 +285,19 @@ export default StyleSheet.create({
     color: SecondaryColor,
     marginTop: 2,
   },
+  statsText: {
+    fontSize: 12,
+    color: SecondaryColor,
+  },
+
+  // --- Erreurs ---
   ErrorText: {
     color: DangerColor,
     marginBottom: 10,
     fontSize: 12,
   },
-  buttonDanger: {
-    backgroundColor: "#EF4444", // Rouge
-    paddingVertical: 12,
-    paddingHorizontal: 20,
-    borderRadius: 8,
-    alignItems: "center",
-    justifyContent: "center",
-    marginVertical: 10,
-    width: "100%",
-  },
-  inputLabel: {
-    fontSize: 14,
-    color: SecondaryColor, // #64748B - gris moyen
-    fontWeight: "500",
-    marginBottom: 10,
-  },
+
+  // --- Navigation ---
   sectionLabel: {
     fontWeight: "500",
     marginBottom: 10,
@@ -270,10 +317,6 @@ export default StyleSheet.create({
     fontSize: 16,
     fontWeight: "600",
     color: PrimaryColor,
-  },
-  statsText: {
-    fontSize: 12,
-    color: SecondaryColor,
   },
   listContentPadding: {
     paddingBottom: 50,
@@ -296,5 +339,27 @@ export default StyleSheet.create({
   iconSmall: {
     height: 24,
     width: 24,
+  },
+
+  // --- Header ---
+  headerStyle: {
+    backgroundColor: "#fff",
+    borderBottomWidth: 1,
+    borderBottomColor: BorderColor,
+  },
+  headerTitleStyle: {
+    fontWeight: "bold",
+    color: PrimaryColor,
+  },
+  headerActionButton: {
+    marginRight: 15,
+    padding: 8,
+    borderRadius: 6,
+    backgroundColor: "#F1F5F9",
+  },
+  headerActionText: {
+    color: PrimaryColor,
+    fontSize: 12,
+    fontWeight: "600",
   },
 });

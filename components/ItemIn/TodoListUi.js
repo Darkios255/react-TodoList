@@ -5,13 +5,7 @@ import React, {
   useMemo,
   useState,
 } from "react";
-import {
-  View,
-  TextInput,
-  TouchableOpacity,
-  Text,
-  FlatList,
-} from "react-native";
+import { View, TextInput, Pressable, Text, FlatList } from "react-native";
 import { TokenContext } from "../../Context/Context";
 import {
   createTodo,
@@ -55,40 +49,43 @@ const TodoListHeader = React.memo(
     navigation,
   }) => (
     <View>
-      {/* Bouton Retour Custom */}
-      <TouchableOpacity
+      <Pressable
         onPress={() => navigation.goBack()}
-        style={styles.backRow}
+        style={({ pressed }) => [styles.backRow, pressed && styles.pressed]}
       >
         <Text style={styles.backIcon}>←</Text>
         <Text style={styles.backLabel}>Retour</Text>
-      </TouchableOpacity>
+      </Pressable>
 
-      {/* En-tête : Titre à gauche, Boutons à droite */}
       <View style={[styles.headerRow, styles.headerRowTop]}>
         <View style={styles.flex1}>
           <Text style={styles.title}>{title}</Text>
         </View>
 
         <View style={styles.inlineRow}>
-          <TouchableOpacity
-            style={styles.outlineButton}
+          <Pressable
+            style={({ pressed }) => [
+              styles.outlineButton,
+              pressed && styles.pressed,
+            ]}
             onPress={() => setDoneState(true)}
           >
             <Text style={styles.outlineButtonText}>✓ Tout cocher</Text>
-          </TouchableOpacity>
-          <TouchableOpacity
-            style={styles.outlineButton}
+          </Pressable>
+          <Pressable
+            style={({ pressed }) => [
+              styles.outlineButton,
+              pressed && styles.pressed,
+            ]}
             onPress={() => setDoneState(false)}
           >
             <Text style={styles.outlineButtonText}>✕ Tout décocher</Text>
-          </TouchableOpacity>
+          </Pressable>
         </View>
       </View>
 
       <CleanProgressBar total={totalCount} done={doneCount} />
 
-      {/* Ajout de tâche */}
       <View style={styles.surfaceCard}>
         <Text style={styles.sectionLabel}>Ajouter une tâche</Text>
         <View style={styles.inlineRowGap}>
@@ -98,22 +95,26 @@ const TodoListHeader = React.memo(
             placeholder="Nouvelle tâche..."
             value={newTodoText}
           />
-          <TouchableOpacity
-            style={[styles.button, styles.buttonCompact]}
+          <Pressable
+            style={({ pressed }) => [
+              styles.button,
+              styles.buttonCompact,
+              pressed && styles.pressed,
+            ]}
             onPress={addNewTodo}
           >
             <Text style={styles.buttonText}>Ajouter</Text>
-          </TouchableOpacity>
+          </Pressable>
         </View>
         <Text style={styles.ErrorText}>{errorMsg}</Text>
       </View>
 
-      {/* Filtres */}
       <View style={styles.choixMultiple}>
-        <TouchableOpacity
-          style={
-            todosFilter === "all" ? styles.filterPillActive : styles.filterPill
-          }
+        <Pressable
+          style={({ pressed }) => [
+            todosFilter === "all" ? styles.filterPillActive : styles.filterPill,
+            pressed && styles.pressed,
+          ]}
           onPress={() => setTodosFilter("all")}
         >
           <Text
@@ -125,13 +126,14 @@ const TodoListHeader = React.memo(
           >
             Toutes ({totalCount})
           </Text>
-        </TouchableOpacity>
-        <TouchableOpacity
-          style={
+        </Pressable>
+        <Pressable
+          style={({ pressed }) => [
             todosFilter === "active"
               ? styles.filterPillActive
-              : styles.filterPill
-          }
+              : styles.filterPill,
+            pressed && styles.pressed,
+          ]}
           onPress={() => setTodosFilter("active")}
         >
           <Text
@@ -143,11 +145,14 @@ const TodoListHeader = React.memo(
           >
             Actives ({activeCount})
           </Text>
-        </TouchableOpacity>
-        <TouchableOpacity
-          style={
-            todosFilter === "done" ? styles.filterPillActive : styles.filterPill
-          }
+        </Pressable>
+        <Pressable
+          style={({ pressed }) => [
+            todosFilter === "done"
+              ? styles.filterPillActive
+              : styles.filterPill,
+            pressed && styles.pressed,
+          ]}
           onPress={() => setTodosFilter("done")}
         >
           <Text
@@ -159,7 +164,7 @@ const TodoListHeader = React.memo(
           >
             Complétées ({doneCount})
           </Text>
-        </TouchableOpacity>
+        </Pressable>
       </View>
     </View>
   )
@@ -210,18 +215,16 @@ export default function TodoListUi(props) {
   const delTodo = useCallback(
     (id) => {
       deleteTodo(id, token);
-      setTodos((prev) => prev.filter((item) => item.id != id));
+      setTodos((prev) => prev.filter((item) => item.id !== id));
     },
     [token]
   );
 
   const setDoneState = useCallback(
     async (value) => {
-      // 1. Mise à jour optimiste de l'UI
       setTodos((prev) => prev.map((element) => ({ ...element, done: value })));
 
       try {
-        // 2. Appel API unique pour tout mettre à jour
         await updateAllTodos(props.listId, value, token);
         console.log("Toutes les tâches ont été mises à jour avec succès");
       } catch (error) {

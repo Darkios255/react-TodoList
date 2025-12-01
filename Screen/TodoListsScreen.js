@@ -1,5 +1,5 @@
 import React, { useContext, useState, useEffect } from "react";
-import { View, Share } from "react-native";
+import { View, Share, Platform } from "react-native";
 
 import { UsernameContext, TokenContext } from "../Context/Context";
 import { getTodoLists, deleteTodoList } from "../components/API/todoListAPI";
@@ -22,21 +22,28 @@ export default function TodoListScreen({ navigation }) {
 
   const exportList = async (id, title) => {
     try {
-      // 1. Récupérer les tâches de la liste via l'API
       const todos = await getTodos(id, token);
 
-      // 2. Formater le message (ex: format texte simple avec cases cochées [x])
       const message =
         `Liste : ${title}\n\n` +
         todos.map((t) => `- [${t.done ? "x" : " "}] ${t.content}`).join("\n");
 
-      // 3. Ouvrir le menu de partage natif (copier, mail, whatsapp, etc.)
-      await Share.share({
-        message: message,
-        title: `Export ${title}`,
-      });
+      if (Platform.OS === "web") {
+        if (navigator.share) {
+          await navigator.share({ title: `Export ${title}`, text: message });
+        } else if (navigator.clipboard) {
+          await navigator.clipboard.writeText(message);
+          alert("Liste copiée dans le presse-papiers !");
+        } else {
+          alert("Le partage n'est pas supporté sur ce navigateur.");
+        }
+      } else {
+        await Share.share({ message, title: `Export ${title}` });
+      }
     } catch (error) {
-      console.error("Erreur lors de l'export:", error);
+      if (error.name !== "AbortError") {
+        console.error("Erreur lors de l'export:", error);
+      }
     }
   };
 
@@ -51,13 +58,10 @@ export default function TodoListScreen({ navigation }) {
 
   return (
     <View style={styles.container}>
-      {/* Zone de création épurée (Carte blanche) */}
       <View style={styles.surfaceCard}>
-        {/* On passe la fonction refresh au composant Input */}
         <Input refresh={refreshTodoLists} />
       </View>
 
-      {/* Liste des TodoLists */}
       <TodoListStack
         data={todoLists}
         onExport={exportList}

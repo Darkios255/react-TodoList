@@ -1,5 +1,5 @@
 import React, { useContext } from "react";
-import { View, Text, TouchableOpacity, Alert, Platform } from "react-native";
+import { View, Text, Pressable, Alert, Platform } from "react-native";
 import { UsernameContext, TokenContext } from "../Context/Context";
 import { deleteUser } from "../components/API/sign";
 import styles from "../styles";
@@ -9,66 +9,41 @@ export default function HomeScreen() {
   const [token, setToken] = useContext(TokenContext);
 
   const handleDeleteAccount = () => {
+    const confirmDelete = () => {
+      deleteUser(username, token)
+        .then(() => {
+          setToken(null);
+          setUsername(null);
+        })
+        .catch((err) => {
+          console.error(err);
+          const errorMessage = err.message || JSON.stringify(err);
+          if (Platform.OS === "web") {
+            alert("Erreur: Impossible de supprimer le compte. " + errorMessage);
+          } else {
+            Alert.alert(
+              "Erreur",
+              "Impossible de supprimer le compte. " + errorMessage
+            );
+          }
+        });
+    };
+
     if (Platform.OS === "web") {
-      // Pour le web, utiliser confirm
       if (
         window.confirm(
           "Êtes-vous sûr de vouloir supprimer votre compte ? Cette action est irréversible."
         )
       ) {
-        deleteUser(username, token)
-          .then(() => {
-            setToken(null);
-            setUsername(null);
-          })
-          .catch((err) => {
-            console.error(err);
-            const errorMessage = err.message || JSON.stringify(err);
-            if (Platform.OS === "web") {
-              alert(
-                "Erreur: Impossible de supprimer le compte. " + errorMessage
-              );
-            } else {
-              Alert.alert(
-                "Erreur",
-                "Impossible de supprimer le compte. " + errorMessage
-              );
-            }
-          });
+        confirmDelete();
       }
     } else {
-      // Pour mobile (iOS/Android)
       Alert.alert(
         "Supprimer le compte",
         "Êtes-vous sûr de vouloir supprimer votre compte ? Cette action est irréversible.",
         [
           { text: "Annuler", style: "cancel" },
-          {
-            text: "Supprimer",
-            style: "destructive",
-            onPress: () => {
-              deleteUser(username, token)
-                .then(() => {
-                  setToken(null);
-                  setUsername(null);
-                })
-                .catch((err) => {
-                  console.error(err);
-                  const errorMessage = err.message || JSON.stringify(err);
-                  if (Platform.OS === "web") {
-                    alert(
-                      "Erreur: Impossible de supprimer le compte. " +
-                        errorMessage
-                    );
-                  } else {
-                    Alert.alert(
-                      "Erreur",
-                      "Impossible de supprimer le compte. " + errorMessage
-                    );
-                  }
-                });
-            },
-          },
+          { text: "Supprimer", style: "destructive", onPress: confirmDelete },
         ]
       );
     }
@@ -81,18 +56,21 @@ export default function HomeScreen() {
         <Text style={styles.subText}>
           Simple application de gestion de tâches
         </Text>
-        <Text style={{ color: "#334155", lineHeight: 22 }}>
-          Ici, vous pouvez organiser gerer vos listes de tâches.
+        <Text style={styles.bodyText}>
+          Ici, vous pouvez organiser et gérer vos listes de tâches.
         </Text>
       </View>
 
-      <View style={{ marginTop: 20 }}>
-        <TouchableOpacity
-          style={styles.buttonDanger}
+      <View style={styles.mt20}>
+        <Pressable
+          style={({ pressed }) => [
+            styles.buttonDanger,
+            pressed && styles.pressed,
+          ]}
           onPress={handleDeleteAccount}
         >
           <Text style={styles.buttonText}>Supprimer mon compte</Text>
-        </TouchableOpacity>
+        </Pressable>
       </View>
     </View>
   );

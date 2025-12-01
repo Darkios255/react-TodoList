@@ -1,15 +1,9 @@
 import React, { useEffect, useState } from "react";
-import {
-  Image,
-  View,
-  Text,
-  StyleSheet,
-  Switch,
-  TouchableOpacity,
-} from "react-native";
+import { Image, View, Text, StyleSheet, Switch, Pressable } from "react-native";
 
 export default function TodoItem(props) {
   const [done, setDone] = useState(props.item.done);
+
   useEffect(() => {
     setDone(props.item.done);
   }, [props.item.done]);
@@ -20,42 +14,44 @@ export default function TodoItem(props) {
   };
 
   return (
-    <View style={styles.content}>
+    <View style={localStyles.content}>
       <Switch
         value={done}
         onValueChange={(state) => stateChange(props.item.id, state)}
       />
 
-      {/* flex: 1 pousse l'élément suivant (poubelle) au bout */}
       <Text
         style={[
-          styles.text_item,
+          localStyles.text_item,
           { textDecorationLine: done ? "line-through" : "none" },
         ]}
       >
         {props.item.content}
       </Text>
 
-      <TouchableOpacity onPress={() => props.deleteTodo(props.item.id)}>
+      <Pressable
+        style={({ pressed }) => [pressed && { opacity: 0.7 }]}
+        onPress={() => props.deleteTodo(props.item.id)}
+      >
         <Image
           source={require("../../assets/trash-can-outline.png")}
           style={{ height: 24, width: 24 }}
         />
-      </TouchableOpacity>
+      </Pressable>
     </View>
   );
 }
 
-const styles = StyleSheet.create({
+const localStyles = StyleSheet.create({
   content: {
     flexDirection: "row",
-    alignItems: "center", // Centre verticalement
-    justifyContent: "space-between", // Écarte les éléments
-    width: "100%", // Prend toute la largeur
+    alignItems: "center",
+    justifyContent: "space-between",
+    width: "100%",
   },
   text_item: {
     marginLeft: 10,
-    flex: 1, // Prend toute la place disponible entre le switch et la poubelle
+    flex: 1,
     fontSize: 16,
     color: "#334155",
   },
