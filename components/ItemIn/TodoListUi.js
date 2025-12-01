@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useMemo, useState } from "react";
+import React, { useCallback, useContext, useEffect, useMemo, useState } from "react";
 import { View, TextInput, TouchableOpacity, Text, FlatList } from 'react-native';
 import { TokenContext } from '../../Context/Context'
 import { createTodo, updateTodo, deleteTodo, updateAllTodos } from '../API/todo'
@@ -20,18 +20,19 @@ const CleanProgressBar = ({ total, done }) => {
     )
 }
 
-const TodoListHeader = ({
-  title,
-  todos,
-  count,
-  todosFilter,
-  setTodosFilter,
-  newTodoText,
-  setTodoText,
-  addNewTodo,
-  setDoneState,
-  errorMsg,
-  navigation,
+const TodoListHeader = React.memo(({
+    title,
+    totalCount,
+    doneCount,
+    activeCount,
+    todosFilter,
+    setTodosFilter,
+    newTodoText,
+    setTodoText,
+    addNewTodo,
+    setDoneState,
+    errorMsg,
+    navigation,
 }) => (
   <View>
             {/* Bouton Retour Custom */}
@@ -59,7 +60,7 @@ const TodoListHeader = ({
                 </View>
             </View>
 
-            <CleanProgressBar total={todos.length} done={count} />
+            <CleanProgressBar total={totalCount} done={doneCount} />
 
             {/* Ajout de tâche */}
             <View style={{backgroundColor: 'white', padding: 15, borderRadius: 10, marginBottom: 20}}>
@@ -85,7 +86,7 @@ const TodoListHeader = ({
                     onPress={() => setTodosFilter('all')}
                 >
                     <Text style={todosFilter === 'all' ? styles.filterTextActive : styles.filterText}>
-                        Toutes ({todos.length})
+                        Toutes ({totalCount})
                     </Text>
                 </TouchableOpacity>
                 <TouchableOpacity 
@@ -93,7 +94,7 @@ const TodoListHeader = ({
                     onPress={() => setTodosFilter('active')}
                 >
                     <Text style={todosFilter === 'active' ? styles.filterTextActive : styles.filterText}>
-                        Actives ({todos.filter(i => !i.done).length})
+                        Actives ({activeCount})
                     </Text>
                 </TouchableOpacity>
                 <TouchableOpacity 
@@ -101,12 +102,12 @@ const TodoListHeader = ({
                     onPress={() => setTodosFilter('done')}
                 >
                     <Text style={todosFilter === 'done' ? styles.filterTextActive : styles.filterText}>
-                        Complétées ({count})
+                        Complétées ({doneCount})
                     </Text>
                 </TouchableOpacity>
             </View>
         </View>
-);
+));
 
 export default function TodoListUi(props) {
     const [todos, setTodos] = useState(props.data)
@@ -120,7 +121,7 @@ export default function TodoListUi(props) {
         setTodos(props.data)
     }, [props.data])
 
-    const addNewTodo = async () => {
+    const addNewTodo = useCallback(async () => {
         if (newTodoText === '') {
             seterrorMsg("Le nom du Todo ne doit pas être vide")
             return
@@ -128,35 +129,30 @@ export default function TodoListUi(props) {
             seterrorMsg('')
             const res = await createTodo(newTodoText, props.listId, token);
             if (res.id) {
-                setTodos([...todos, res]);
+                setTodos((prev) => [...prev, res]);
                 setTodoText("");
             }
         } catch (error) {
             console.error("Error creating todo:", error);
         }
-    }
+    }, [newTodoText, props.listId, token])
     
-    const change = (idTodo, state) => {
+    const change = useCallback((idTodo, state) => {
         updateTodo(idTodo, state, token)
-        const newTodos = todos.map(item => {
+        setTodos(prev => prev.map(item => {
              if (item.id === idTodo) return {...item, done: state};
              return item;
-        })
-        setTodos(newTodos)
-    }
+        }))
+    }, [token])
 
-    const delTodo = (id) => {
-        const newTodos = todos.filter((item) => item.id != id)
+    const delTodo = useCallback((id) => {
         deleteTodo(id, token)
-        setTodos(newTodos)
-    }
+        setTodos(prev => prev.filter((item) => item.id != id))
+    }, [token])
 
-    const setDoneState = async (value) => {
+    const setDoneState = useCallback(async (value) => {
         // 1. Mise à jour optimiste de l'UI
-        const newTodos = todos.map(element => {
-             return { ...element, done: value };
-        });
-        setTodos(newTodos);
+        setTodos(prev => prev.map(element => ({ ...element, done: value })));
 
         try {
             // 2. Appel API unique pour tout mettre à jour
@@ -165,20 +161,28 @@ export default function TodoListUi(props) {
         } catch (error) {
             console.error("Erreur lors de la mise à jour de masse", error);
         }
-    }
+    }, [props.listId, token])
 
-    const filterTodos = () => {
+    const filteredTodos = useMemo(() => {
         switch (todosFilter) {
-            case 'done': return todos.filter(item => item.done)
-            case 'active': return todos.filter(item => !item.done)
-            default: return todos
-    }}
+            case 'done':
+                return todos.filter(item => item.done)
+            case 'active':
+                return todos.filter(item => !item.done)
+            default:
+                return todos
+        }
+    }, [todos, todosFilter])
 
-    const headerComponent = useMemo(() => (
+    const totalCount = todos.length
+    const activeCount = totalCount - count
+
+    const renderHeader = useCallback(() => (
         <TodoListHeader
           title={props.title}
-          todos={todos}
-          count={count}
+          totalCount={totalCount}
+          doneCount={count}
+          activeCount={activeCount}
           todosFilter={todosFilter}
           setTodosFilter={setTodosFilter}
           newTodoText={newTodoText}
@@ -188,15 +192,15 @@ export default function TodoListUi(props) {
           errorMsg={errorMsg}
           navigation={props.navigation}
         />
-      ), [props.title, todos, count, todosFilter, newTodoText, errorMsg]);
+      ), [activeCount, addNewTodo, count, errorMsg, newTodoText, props.navigation, props.title, setDoneState, todosFilter, totalCount])
 
     return (
         <FlatList
             style={styles.container}
             contentContainerStyle={{paddingBottom: 50}}
-            data={filterTodos()}
+            data={filteredTodos}
             keyExtractor={(item) => item.id.toString()}
-            ListHeaderComponent={headerComponent}
+            ListHeaderComponent={renderHeader}
             renderItem={({item}) => (
                 <View style={{
                     backgroundColor: 'white',
