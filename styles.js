@@ -26,6 +26,15 @@ export default StyleSheet.create({
     color: SecondaryColor,
     marginBottom: 15,
   },
+  subText: {
+    fontSize: 14,
+    color: SecondaryColor,
+    marginBottom: 10,
+  },
+  bodyText: {
+    color: '#334155',
+    lineHeight: 22,
+  },
   
   // --- Inputs ---
   input: {
@@ -38,6 +47,10 @@ export default StyleSheet.create({
     paddingHorizontal: 15,
     fontSize: 16,
   },
+  inputInline: {
+    flex: 1,
+    marginBottom: 0,
+  },
 
   // --- Boutons ---
   button: {
@@ -48,6 +61,15 @@ export default StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
     marginVertical: 5,
+  },
+  buttonCompact: {
+    marginVertical: 0,
+    paddingVertical: 10,
+    paddingHorizontal: 15,
+  },
+  buttonNarrow: {
+    width: 80,
+    marginVertical: 0,
   },
   buttonText: {
     color: 'white',
@@ -107,6 +129,21 @@ export default StyleSheet.create({
     borderColor: BorderColor,
     borderWidth: 1,
   },
+  surfaceCard: {
+    backgroundColor: CardColor,
+    borderRadius: 10,
+    padding: 15,
+    marginBottom: 20,
+    borderColor: BorderColor,
+    borderWidth: 1,
+  },
+  listItemContainer: {
+    backgroundColor: CardColor,
+    borderBottomWidth: 1,
+    borderBottomColor: BorderColor,
+    paddingVertical: 10,
+    paddingHorizontal: 10,
+  },
   
   // --- Filtres (Pills) ---
   choixMultiple: {
@@ -148,8 +185,23 @@ export default StyleSheet.create({
     alignItems: 'center',
     marginBottom: 15,
   },
+  headerRowTop: {
+    alignItems: 'flex-start',
+  },
   actionsRow: {
     flexDirection: 'row',
+  },
+  inlineRow: {
+    flexDirection: 'row',
+    alignItems: 'center',
+  },
+  inlineRowGap: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 10,
+  },
+  flex1: {
+    flex: 1,
   },
   
   // --- Divers ---
@@ -159,6 +211,14 @@ export default StyleSheet.create({
     borderRadius: 2,
     marginVertical: 10,
     overflow: 'hidden',
+  },
+  progressSection: {
+    marginBottom: 20,
+  },
+  statsRow: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    marginBottom: 5,
   },
   progressBar: {
     height: '100%',
@@ -189,5 +249,32 @@ export default StyleSheet.create({
     color: SecondaryColor, // #64748B - gris moyen
     fontWeight: '500',
     marginBottom: 10,
+  },
+  sectionLabel: {
+    fontWeight: '500',
+    marginBottom: 10,
+    color: PrimaryColor,
+  },
+  backRow: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    marginBottom: 15,
+  },
+  backIcon: {
+    fontSize: 20,
+    marginRight: 5,
+    color: PrimaryColor,
+  },
+  backLabel: {
+    fontSize: 16,
+    fontWeight: '600',
+    color: PrimaryColor,
+  },
+  statsText: {
+    fontSize: 12,
+    color: SecondaryColor,
+  },
+  listContentPadding: {
+    paddingBottom: 50,
   }
 });

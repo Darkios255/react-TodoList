@@ -14,10 +14,9 @@ export default function Input(props) {
 
     return (
         <View>
-             <View style={{flexDirection: 'row', gap: 10}}>
+             <View style={styles.inlineRowGap}>
                 <TextInput 
-                    // On utilise le style input mais on force flex: 1 pour qu'il prenne la place
-                    style={[styles.input, {flex: 1, marginBottom: 0}]} 
+                    style={[styles.input, styles.inputInline]} 
                     placeholder="Nom de la nouvelle liste..."
                     onChangeText={setName}
                     value={name}
@@ -25,7 +24,7 @@ export default function Input(props) {
                 
                 {/* Bouton compact à droite */}
                 <TouchableOpacity 
-                    style={[styles.button, {width: 80, marginVertical: 0}]}
+                    style={[styles.button, styles.buttonNarrow]}
                     onPress={async () => {
                         if ( name == '' ) {
                             seterrorMsg("Le nom ne doit pas être vide")

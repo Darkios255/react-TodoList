@@ -9,9 +9,9 @@ import styles from "../../styles";
 const CleanProgressBar = ({ total, done }) => {
     const percent = total > 0 ? (done / total) * 100 : 0;
     return (
-        <View style={{marginBottom: 20}}>
-             <View style={{flexDirection:'row', justifyContent:'space-between', marginBottom: 5}}>
-                <Text style={styles.progressText}>{done} / {total} tâches complétées</Text>
+        <View style={styles.progressSection}>
+             <View style={styles.statsRow}>
+                <Text style={styles.statsText}>{done} / {total} tâches complétées</Text>
              </View>
              <View style={styles.progressBarContainer}>
                 <View style={[styles.progressBar, { width: `${percent}%` }]} />
@@ -38,19 +38,19 @@ const TodoListHeader = React.memo(({
             {/* Bouton Retour Custom */}
             <TouchableOpacity 
                 onPress={() => navigation.goBack()} 
-                style={{flexDirection: 'row', alignItems: 'center', marginBottom: 15}}
+                style={styles.backRow}
             >
-                <Text style={{fontSize: 20, marginRight: 5}}>←</Text> 
-                <Text style={{fontSize: 16, fontWeight: '600', color: '#0F172A'}}>Retour</Text>
+                <Text style={styles.backIcon}>←</Text> 
+                <Text style={styles.backLabel}>Retour</Text>
             </TouchableOpacity>
 
             {/* En-tête : Titre à gauche, Boutons à droite */}
-            <View style={[styles.headerRow, {alignItems: 'flex-start'}]}>
-                <View style={{flex: 1}}>
+            <View style={[styles.headerRow, styles.headerRowTop]}>
+                <View style={styles.flex1}>
                     <Text style={styles.title}>{title}</Text> 
                 </View>
                 
-                <View style={{flexDirection: 'row'}}>
+                <View style={styles.inlineRow}>
                     <TouchableOpacity style={styles.outlineButton} onPress={() => setDoneState(true)}>
                         <Text style={styles.outlineButtonText}>✓ Tout cocher</Text>
                     </TouchableOpacity>
@@ -63,16 +63,16 @@ const TodoListHeader = React.memo(({
             <CleanProgressBar total={totalCount} done={doneCount} />
 
             {/* Ajout de tâche */}
-            <View style={{backgroundColor: 'white', padding: 15, borderRadius: 10, marginBottom: 20}}>
-                <Text style={{fontWeight:'500', marginBottom: 10}}>Ajouter une tâche</Text>
-                <View style={{flexDirection: 'row', gap: 10}}>
+            <View style={styles.surfaceCard}>
+                <Text style={styles.sectionLabel}>Ajouter une tâche</Text>
+                <View style={styles.inlineRowGap}>
                     <TextInput 
-                        style={[styles.input, {flex: 1, marginBottom: 0}]}
+                        style={[styles.input, styles.inputInline]}
                         onChangeText={setTodoText}
                         placeholder='Nouvelle tâche...'
                         value={newTodoText}
                     />
-                    <TouchableOpacity style={[styles.button, {paddingHorizontal: 15, marginVertical: 0}]} onPress={addNewTodo}>
+                    <TouchableOpacity style={[styles.button, styles.buttonCompact]} onPress={addNewTodo}>
                         <Text style={styles.buttonText}>Ajouter</Text>
                     </TouchableOpacity>
                 </View>
@@ -192,23 +192,17 @@ export default function TodoListUi(props) {
           errorMsg={errorMsg}
           navigation={props.navigation}
         />
-            ), [activeCount, addNewTodo, count, errorMsg, newTodoText, props.navigation, props.title, setDoneState, todosFilter, totalCount])
+    ), [activeCount, addNewTodo, count, errorMsg, newTodoText, props.navigation, props.title, setDoneState, todosFilter, totalCount])
 
     return (
         <FlatList
             style={styles.container}
-            contentContainerStyle={{paddingBottom: 50}}
+            contentContainerStyle={styles.listContentPadding}
             data={filteredTodos}
             keyExtractor={(item) => item.id.toString()}
-                        ListHeaderComponent={headerComponent}
+            ListHeaderComponent={headerComponent}
             renderItem={({item}) => (
-                <View style={{
-                    backgroundColor: 'white',
-                    borderBottomWidth: 1, 
-                    borderBottomColor: '#F1F5F9', 
-                    paddingVertical: 10, 
-                    paddingHorizontal: 10
-                }}>
+                <View style={styles.listItemContainer}>
                     <TodoItem item={item} change={change} deleteTodo={delTodo}/>
                 </View>
             )}
