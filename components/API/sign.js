@@ -23,12 +23,11 @@ mutation SignUp($username: String!, $password: String!) {
 
 
 
-export function deleteUser(username, token) {
+export function deleteUser(username) {
   return fetch(API_URL, {
     method: 'POST',
     headers: {
-      'Content-Type': 'application/json',
-      'authorization': 'Bearer ' + token
+      'Content-Type': 'application/json'
     },
     body: JSON.stringify({
       query: DELETE_USER,

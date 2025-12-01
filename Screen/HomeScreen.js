@@ -19,7 +19,7 @@ export default function HomeScreen() {
                     style: "destructive", 
                     onPress: () => {
                         // Appel de l'API
-                        deleteUser(username, token)
+                        deleteUser(username)
                             .then(() => {
                                 // Si succès, on déconnecte l'utilisateur localement
                                 setToken(null);
