@@ -32,6 +32,7 @@ export default function Navigation () {
                     screenOptions={{
                         headerStyle: { backgroundColor: '#fff', elevation: 0, shadowOpacity: 0, borderBottomWidth: 1, borderBottomColor: '#E2E8F0' },
                         headerTitleStyle: { fontWeight: 'bold', color: '#0F172A' },
+                        headerTitle: 'TodoApp',
                         headerRight: () => (
                             <TouchableOpacity 
                                 style={{ marginRight: 15, padding: 8, borderRadius: 6, backgroundColor: '#F1F5F9' }}
