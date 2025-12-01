@@ -177,7 +177,7 @@ export default function TodoListUi(props) {
     const totalCount = todos.length
     const activeCount = totalCount - count
 
-    const renderHeader = useCallback(() => (
+        const headerComponent = useMemo(() => (
         <TodoListHeader
           title={props.title}
           totalCount={totalCount}
@@ -192,7 +192,7 @@ export default function TodoListUi(props) {
           errorMsg={errorMsg}
           navigation={props.navigation}
         />
-      ), [activeCount, addNewTodo, count, errorMsg, newTodoText, props.navigation, props.title, setDoneState, todosFilter, totalCount])
+            ), [activeCount, addNewTodo, count, errorMsg, newTodoText, props.navigation, props.title, setDoneState, todosFilter, totalCount])
 
     return (
         <FlatList
@@ -200,7 +200,7 @@ export default function TodoListUi(props) {
             contentContainerStyle={{paddingBottom: 50}}
             data={filteredTodos}
             keyExtractor={(item) => item.id.toString()}
-            ListHeaderComponent={renderHeader}
+                        ListHeaderComponent={headerComponent}
             renderItem={({item}) => (
                 <View style={{
                     backgroundColor: 'white',
