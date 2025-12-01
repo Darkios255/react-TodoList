@@ -1,5 +1,5 @@
 import React, { useContext, useEffect, useState } from "react";
-import { View, TextInput, TouchableOpacity, Text, FlatList, ScrollView, Image } from 'react-native';
+import { View, TextInput, TouchableOpacity, Text, FlatList } from 'react-native';
 import { TokenContext } from '../../Context/Context'
 import { createTodo, updateTodo, deleteTodo, updateAllTodos } from '../API/todo'
 
@@ -86,10 +86,8 @@ export default function TodoListUi(props){
             default: return todos
     }}
 
-
-    return (
-        <ScrollView style={styles.container} contentContainerStyle={{paddingBottom: 50}}>
-            
+    const renderHeader = () => (
+        <View>
             {/* Bouton Retour Custom */}
             <TouchableOpacity 
                 onPress={() => props.navigation.goBack()} 
@@ -161,20 +159,27 @@ export default function TodoListUi(props){
                     </Text>
                 </TouchableOpacity>
             </View>
+        </View>
+    )
 
-            {/* Liste des items */}
-            <View style={{backgroundColor: 'white', borderRadius: 10, overflow: 'hidden'}}>
-                <FlatList
-                    data={filterTodos()}
-                    keyExtractor={(item) => item.id.toString()}
-                    renderItem={({item}) => (
-                        <View style={{borderBottomWidth: 1, borderBottomColor: '#F1F5F9', paddingVertical: 10, paddingHorizontal: 10}}>
-                             <TodoItem item={item} change={change} deleteTodo={delTodo}/>
-                        </View>
-                    )}
-                    scrollEnabled={false}
-                />
-            </View>
-        </ScrollView>
+    return (
+        <FlatList
+            style={styles.container}
+            contentContainerStyle={{paddingBottom: 50}}
+            data={filterTodos()}
+            keyExtractor={(item) => item.id.toString()}
+            ListHeaderComponent={renderHeader}
+            renderItem={({item}) => (
+                <View style={{
+                    backgroundColor: 'white',
+                    borderBottomWidth: 1, 
+                    borderBottomColor: '#F1F5F9', 
+                    paddingVertical: 10, 
+                    paddingHorizontal: 10
+                }}>
+                    <TodoItem item={item} change={change} deleteTodo={delTodo}/>
+                </View>
+            )}
+        />
     )
 }
