@@ -62,8 +62,8 @@ Cette application permet aux utilisateurs de créer des listes de tâches, de g�
 
 ## Auteurs
 
-* [Votre Nom] - [Votre Numéro Étudiant]
-* [Nom de votre binôme] - [Numéro Étudiant de votre binôme]
+* AUBERT Paul - 22205603
+* SIAGHI Massinissa - 22312276
 
 ---
 *Projet réalisé pour l'université de Caen Normandie (UNICAEN) - 2025/2026*
