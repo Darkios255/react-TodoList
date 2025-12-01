@@ -1,6 +1,6 @@
 import { StyleSheet, Platform } from "react-native";
 
-// Palette inspirée du design web (Shadcn/Tailwind)
+
 const BackgroundColor = "#F3F4F6"; // Gris très clair pour le fond de l'app
 const CardColor = "#FFFFFF"; // Blanc pour les cartes
 const PrimaryColor = "#0F172A"; // Noir/Bleu nuit pour les textes et boutons principaux

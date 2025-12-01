@@ -19,7 +19,7 @@ Cette application permet aux utilisateurs de créer des listes de tâches, de g�
 * **Export et Partage** : Exportation du contenu d'une liste au format texte (via le partage natif du téléphone ou le presse-papier).
 * **Administration du Compte** : Possibilité pour l'utilisateur de supprimer son compte et toutes ses données associées.
 
-## 🛠 Technologies utilisées
+## Technologies utilisées
 
 * **React Native** / **Expo**
 * **React Navigation** (Bottom Tabs & Native Stack)
