@@ -1,5 +1,5 @@
 import React, { useContext, useState, useEffect } from "react";
-import { View, Share, Platform } from "react-native";
+import { View, Share, Platform, Text } from "react-native";
 
 import { UsernameContext, TokenContext } from "../Context/Context";
 import { getTodoLists, deleteTodoList } from "../components/API/todoListAPI";
@@ -13,12 +13,14 @@ export default function TodoListScreen({ navigation }) {
   const [token] = useContext(TokenContext);
   const [username] = useContext(UsernameContext);
   const [todoLists, setTodolists] = useState([]);
+  const [errorMsg, setErrorMsg] = useState("");
 
   useEffect(() => {
+    setErrorMsg("");
     getTodoLists(username, token)
       .then((todolists) => setTodolists(todolists))
-      .catch((err) => console.error(err.message));
-  }, []);
+      .catch((err) => setErrorMsg(err.message || "Erreur de chargement"));
+  }, [username, token]);
 
   const exportList = async (id, title) => {
     try {
@@ -42,14 +44,16 @@ export default function TodoListScreen({ navigation }) {
       }
     } catch (error) {
       if (error.name !== "AbortError") {
-        console.error("Erreur lors de l'export:", error);
+        setErrorMsg("Erreur lors de l'export");
       }
     }
   };
 
   const deleteTodoListS = (id) => {
     setTodolists(todoLists.filter((todoList) => todoList.id !== id));
-    deleteTodoList(id, token).catch((err) => console.error(err.message));
+    deleteTodoList(id, token).catch((err) => {
+      setErrorMsg(err.message || "Erreur lors de la suppression");
+    });
   };
 
   function refreshTodoLists(val) {
@@ -58,6 +62,8 @@ export default function TodoListScreen({ navigation }) {
 
   return (
     <View style={styles.container}>
+      {errorMsg ? <Text style={styles.ErrorText}>{errorMsg}</Text> : null}
+
       <View style={styles.surfaceCard}>
         <Input refresh={refreshTodoLists} />
       </View>

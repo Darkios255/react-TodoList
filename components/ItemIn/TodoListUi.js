@@ -201,37 +201,67 @@ export default function TodoListUi(props) {
 
   const change = useCallback(
     (idTodo, state) => {
-      updateTodo(idTodo, state, token);
+      // Mise à jour optimiste
       setTodos((prev) =>
         prev.map((item) => {
           if (item.id === idTodo) return { ...item, done: state };
           return item;
         })
       );
+
+      // Appel API avec rollback en cas d'erreur
+      updateTodo(idTodo, state, token).catch((error) => {
+        console.error("Erreur mise à jour:", error);
+        // Rollback
+        setTodos((prev) =>
+          prev.map((item) => {
+            if (item.id === idTodo) return { ...item, done: !state };
+            return item;
+          })
+        );
+        seterrorMsg("Erreur lors de la mise à jour");
+      });
     },
     [token]
   );
 
   const delTodo = useCallback(
     (id) => {
-      deleteTodo(id, token);
+      // Sauvegarde pour rollback
+      const todoToDelete = todos.find((item) => item.id === id);
+
+      // Suppression optimiste
       setTodos((prev) => prev.filter((item) => item.id !== id));
+
+      deleteTodo(id, token).catch((error) => {
+        console.error("Erreur suppression:", error);
+        // Rollback
+        if (todoToDelete) {
+          setTodos((prev) => [...prev, todoToDelete]);
+        }
+        seterrorMsg("Erreur lors de la suppression");
+      });
     },
-    [token]
+    [token, todos]
   );
 
   const setDoneState = useCallback(
     async (value) => {
+      // Sauvegarde pour rollback
+      const previousTodos = [...todos];
+
       setTodos((prev) => prev.map((element) => ({ ...element, done: value })));
 
       try {
         await updateAllTodos(props.listId, value, token);
-        console.log("Toutes les tâches ont été mises à jour avec succès");
       } catch (error) {
         console.error("Erreur lors de la mise à jour de masse", error);
+        // Rollback
+        setTodos(previousTodos);
+        seterrorMsg("Erreur lors de la mise à jour");
       }
     },
-    [props.listId, token]
+    [props.listId, token, todos]
   );
 
   const filteredTodos = useMemo(() => {
