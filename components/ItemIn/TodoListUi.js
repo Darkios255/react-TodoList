@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState } from "react";
+import React, { useContext, useEffect, useMemo, useState } from "react";
 import { View, TextInput, TouchableOpacity, Text, FlatList } from 'react-native';
 import { TokenContext } from '../../Context/Context'
 import { createTodo, updateTodo, deleteTodo, updateAllTodos } from '../API/todo'
@@ -20,7 +20,95 @@ const CleanProgressBar = ({ total, done }) => {
     )
 }
 
-export default function TodoListUi(props){
+const TodoListHeader = ({
+  title,
+  todos,
+  count,
+  todosFilter,
+  setTodosFilter,
+  newTodoText,
+  setTodoText,
+  addNewTodo,
+  setDoneState,
+  errorMsg,
+  navigation,
+}) => (
+  <View>
+            {/* Bouton Retour Custom */}
+            <TouchableOpacity 
+                onPress={() => navigation.goBack()} 
+                style={{flexDirection: 'row', alignItems: 'center', marginBottom: 15}}
+            >
+                <Text style={{fontSize: 20, marginRight: 5}}>←</Text> 
+                <Text style={{fontSize: 16, fontWeight: '600', color: '#0F172A'}}>Retour</Text>
+            </TouchableOpacity>
+
+            {/* En-tête : Titre à gauche, Boutons à droite */}
+            <View style={[styles.headerRow, {alignItems: 'flex-start'}]}>
+                <View style={{flex: 1}}>
+                    <Text style={styles.title}>{title}</Text> 
+                </View>
+                
+                <View style={{flexDirection: 'row'}}>
+                    <TouchableOpacity style={styles.outlineButton} onPress={() => setDoneState(true)}>
+                        <Text style={styles.outlineButtonText}>✓ Tout cocher</Text>
+                    </TouchableOpacity>
+                    <TouchableOpacity style={styles.outlineButton} onPress={() => setDoneState(false)}>
+                        <Text style={styles.outlineButtonText}>✕ Tout décocher</Text>
+                    </TouchableOpacity>
+                </View>
+            </View>
+
+            <CleanProgressBar total={todos.length} done={count} />
+
+            {/* Ajout de tâche */}
+            <View style={{backgroundColor: 'white', padding: 15, borderRadius: 10, marginBottom: 20}}>
+                <Text style={{fontWeight:'500', marginBottom: 10}}>Ajouter une tâche</Text>
+                <View style={{flexDirection: 'row', gap: 10}}>
+                    <TextInput 
+                        style={[styles.input, {flex: 1, marginBottom: 0}]}
+                        onChangeText={setTodoText}
+                        placeholder='Nouvelle tâche...'
+                        value={newTodoText}
+                    />
+                    <TouchableOpacity style={[styles.button, {paddingHorizontal: 15, marginVertical: 0}]} onPress={addNewTodo}>
+                        <Text style={styles.buttonText}>Ajouter</Text>
+                    </TouchableOpacity>
+                </View>
+                <Text style={styles.ErrorText}>{errorMsg}</Text>
+            </View>
+
+            {/* Filtres */}
+            <View style={styles.choixMultiple}>
+                <TouchableOpacity 
+                    style={todosFilter === 'all' ? styles.filterPillActive : styles.filterPill} 
+                    onPress={() => setTodosFilter('all')}
+                >
+                    <Text style={todosFilter === 'all' ? styles.filterTextActive : styles.filterText}>
+                        Toutes ({todos.length})
+                    </Text>
+                </TouchableOpacity>
+                <TouchableOpacity 
+                    style={todosFilter === 'active' ? styles.filterPillActive : styles.filterPill} 
+                    onPress={() => setTodosFilter('active')}
+                >
+                    <Text style={todosFilter === 'active' ? styles.filterTextActive : styles.filterText}>
+                        Actives ({todos.filter(i => !i.done).length})
+                    </Text>
+                </TouchableOpacity>
+                <TouchableOpacity 
+                    style={todosFilter === 'done' ? styles.filterPillActive : styles.filterPill} 
+                    onPress={() => setTodosFilter('done')}
+                >
+                    <Text style={todosFilter === 'done' ? styles.filterTextActive : styles.filterText}>
+                        Complétées ({count})
+                    </Text>
+                </TouchableOpacity>
+            </View>
+        </View>
+);
+
+export default function TodoListUi(props) {
     const [todos, setTodos] = useState(props.data)
     const count = todos.filter((item)=>item.done).length;
     const [newTodoText, setTodoText] = useState("")
@@ -86,81 +174,21 @@ export default function TodoListUi(props){
             default: return todos
     }}
 
-    const renderHeader = () => (
-        <View>
-            {/* Bouton Retour Custom */}
-            <TouchableOpacity 
-                onPress={() => props.navigation.goBack()} 
-                style={{flexDirection: 'row', alignItems: 'center', marginBottom: 15}}
-            >
-                <Text style={{fontSize: 20, marginRight: 5}}>←</Text> 
-                <Text style={{fontSize: 16, fontWeight: '600', color: '#0F172A'}}>Retour</Text>
-            </TouchableOpacity>
-
-            {/* En-tête : Titre à gauche, Boutons à droite */}
-            <View style={[styles.headerRow, {alignItems: 'flex-start'}]}>
-                <View style={{flex: 1}}>
-                    <Text style={styles.title}>{props.title}</Text> 
-                </View>
-                
-                <View style={{flexDirection: 'row'}}>
-                    <TouchableOpacity style={styles.outlineButton} onPress={() => setDoneState(true)}>
-                        <Text style={styles.outlineButtonText}>✓ Tout cocher</Text>
-                    </TouchableOpacity>
-                    <TouchableOpacity style={styles.outlineButton} onPress={() => setDoneState(false)}>
-                        <Text style={styles.outlineButtonText}>✕ Tout décocher</Text>
-                    </TouchableOpacity>
-                </View>
-            </View>
-
-            <CleanProgressBar total={todos.length} done={count} />
-
-            {/* Ajout de tâche */}
-            <View style={{backgroundColor: 'white', padding: 15, borderRadius: 10, marginBottom: 20}}>
-                <Text style={{fontWeight:'500', marginBottom: 10}}>Ajouter une tâche</Text>
-                <View style={{flexDirection: 'row', gap: 10}}>
-                    <TextInput 
-                        style={[styles.input, {flex: 1, marginBottom: 0}]}
-                        onChangeText={setTodoText}
-                        placeholder='Nouvelle tâche...'
-                        value={newTodoText}
-                    />
-                    <TouchableOpacity style={[styles.button, {paddingHorizontal: 15, marginVertical: 0}]} onPress={addNewTodo}>
-                        <Text style={styles.buttonText}>Ajouter</Text>
-                    </TouchableOpacity>
-                </View>
-                <Text style={styles.ErrorText}>{errorMsg}</Text>
-            </View>
-
-            {/* Filtres */}
-            <View style={styles.choixMultiple}>
-                <TouchableOpacity 
-                    style={todosFilter === 'all' ? styles.filterPillActive : styles.filterPill} 
-                    onPress={() => setTodosFilter('all')}
-                >
-                    <Text style={todosFilter === 'all' ? styles.filterTextActive : styles.filterText}>
-                        Toutes ({todos.length})
-                    </Text>
-                </TouchableOpacity>
-                <TouchableOpacity 
-                    style={todosFilter === 'active' ? styles.filterPillActive : styles.filterPill} 
-                    onPress={() => setTodosFilter('active')}
-                >
-                    <Text style={todosFilter === 'active' ? styles.filterTextActive : styles.filterText}>
-                        Actives ({todos.filter(i => !i.done).length})
-                    </Text>
-                </TouchableOpacity>
-                <TouchableOpacity 
-                    style={todosFilter === 'done' ? styles.filterPillActive : styles.filterPill} 
-                    onPress={() => setTodosFilter('done')}
-                >
-                    <Text style={todosFilter === 'done' ? styles.filterTextActive : styles.filterText}>
-                        Complétées ({count})
-                    </Text>
-                </TouchableOpacity>
-            </View>
-        </View>
-    )
+    const headerComponent = useMemo(() => (
+        <TodoListHeader
+          title={props.title}
+          todos={todos}
+          count={count}
+          todosFilter={todosFilter}
+          setTodosFilter={setTodosFilter}
+          newTodoText={newTodoText}
+          setTodoText={setTodoText}
+          addNewTodo={addNewTodo}
+          setDoneState={setDoneState}
+          errorMsg={errorMsg}
+          navigation={props.navigation}
+        />
+      ), [props.title, todos, count, todosFilter, newTodoText, errorMsg]);
 
     return (
         <FlatList
@@ -168,7 +196,7 @@ export default function TodoListUi(props){
             contentContainerStyle={{paddingBottom: 50}}
             data={filterTodos()}
             keyExtractor={(item) => item.id.toString()}
-            ListHeaderComponent={renderHeader}
+            ListHeaderComponent={headerComponent}
             renderItem={({item}) => (
                 <View style={{
                     backgroundColor: 'white',
