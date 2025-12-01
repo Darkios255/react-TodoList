@@ -174,7 +174,16 @@ export default StyleSheet.create({
     marginBottom: 10,
     fontSize: 12,
   },
-  // Nouveau style pour les labels d'input
+  buttonDanger: {
+    backgroundColor: '#EF4444', // Rouge
+    paddingVertical: 12,
+    paddingHorizontal: 20,
+    borderRadius: 8,
+    alignItems: 'center',
+    justifyContent: 'center',
+    marginVertical: 10,
+    width: '100%',
+  },
   inputLabel: {
     fontSize: 14,
     color: SecondaryColor, // #64748B - gris moyen
