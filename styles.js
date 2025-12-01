@@ -94,6 +94,19 @@ export default StyleSheet.create({
     borderColor: BorderColor,
     borderWidth: 1,
   },
+  authCard: {
+    backgroundColor: CardColor,
+    borderRadius: 12,
+    padding: 25,               
+    width: '100%',             
+    shadowColor: "#000",
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.1,
+    shadowRadius: 4,
+    elevation: 5,
+    borderColor: BorderColor,
+    borderWidth: 1,
+  },
   
   // --- Filtres (Pills) ---
   choixMultiple: {

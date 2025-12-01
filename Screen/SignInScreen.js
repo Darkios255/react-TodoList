@@ -42,7 +42,7 @@ export default function SignInScreen() {
 
     return (
         <View style={[styles.container, { justifyContent: 'center' }]}>
-            <View style={styles.card}>
+            <View style={styles.authCard}>
                 {/* Titre dynamique */}
                 <Text style={[styles.title, { textAlign: 'center', marginBottom: 20 }]}>
                     {isSignUp ? "Créer un compte" : "Bienvenue"}
