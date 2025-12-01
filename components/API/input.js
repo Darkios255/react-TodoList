@@ -45,7 +45,7 @@ export default function Input(props) {
                         }
                     }}
                 >
-                    <Text style={styles.buttonText}>+ Créer</Text>
+                    <Text style={styles.buttonText}>Créer</Text>
                 </TouchableOpacity>
             </View>
             {/* Message d'erreur en dessous si besoin, discret */}

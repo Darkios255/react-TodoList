@@ -16,7 +16,12 @@ export default function TodoItem(props) {
     return (
         <View style={styles.content}>
             <Switch value={done} onValueChange={(state) => stateChange(props.item.id, state)} />
-            <Text style={[styles.text_item, { textDecorationLine: done ? 'line-through' : 'none' }]}>{props.item.content}</Text>
+            
+            {/* flex: 1 pousse l'élément suivant (poubelle) au bout */}
+            <Text style={[styles.text_item, { textDecorationLine: done ? 'line-through' : 'none' }]}>
+                {props.item.content}
+            </Text>
+            
             <TouchableOpacity onPress={() => props.deleteTodo(props.item.id)}>
                 <Image source={require('../../assets/trash-can-outline.png')} style={{ height: 24, width: 24 }} />
             </TouchableOpacity>
@@ -26,10 +31,15 @@ export default function TodoItem(props) {
 
 const styles = StyleSheet.create({
     content: {
-        flexDirection: 'row'
+        flexDirection: 'row',
+        alignItems: 'center', // Centre verticalement
+        justifyContent: 'space-between', // Écarte les éléments
+        width: '100%' // Prend toute la largeur
     },
     text_item: {
         marginLeft: 10,
-        width: 150
+        flex: 1, // Prend toute la place disponible entre le switch et la poubelle
+        fontSize: 16,
+        color: '#334155'
     }
 })

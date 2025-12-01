@@ -6,25 +6,28 @@ import { getTodos } from "../components/API/todo"
 import { TokenContext } from '../Context/Context'
 import styles from '../styles';
 
-export default function TodoListScreen(props) {
+export default function TodoListDetailsScreen({ route, navigation }) {
 
     const [token] = useContext(TokenContext)
     const [data, setData] = useState([]);
+    const { id, title } = route.params; // Récupération du titre
 
     useEffect (() => {
         const fetchTodos = async () => {
-            const todos = await getTodos(props.route.params.id, token);
+            const todos = await getTodos(id, token);
             setData(todos);
         };
 
         fetchTodos();
-    }, [props.route.params.id, token]);
+    }, [id, token]);
 
     return (
         <View style={styles.container}>
             <TodoListUi
                 data={data}
-                listId={props.route.params.id}
+                listId={id}
+                title={title} 
+                navigation={navigation} 
             />
         </View>
     );

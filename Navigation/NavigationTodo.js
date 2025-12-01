@@ -10,10 +10,10 @@ export default function NavigationTodo() {
         <Stack.Navigator 
             initialRouteName='List'
             screenOptions={{
-                headerStyle: { backgroundColor: '#F3F4F6' }, 
+                headerStyle: { backgroundColor: '#F3F4F6' },
                 headerTitleStyle: { fontWeight: 'bold', color: '#0F172A' },
-                headerShadowVisible: false, 
-                headerBackTitleVisible: false, 
+                headerShadowVisible: false,
+                headerBackTitleVisible: false,
             }}
         >
             <Stack.Screen 
@@ -24,7 +24,8 @@ export default function NavigationTodo() {
             <Stack.Screen 
                 name='Details' 
                 component={TodoListDetailsScreen} 
-                options={{ title: 'Détails de la liste' }} 
+                // On cache le header natif pour <- Retour"
+                options={{ headerShown: false }} 
             />
         </Stack.Navigator>
     )
