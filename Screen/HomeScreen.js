@@ -19,7 +19,12 @@ export default function HomeScreen() {
                     })
                     .catch(err => {
                         console.error(err);
-                        alert("Erreur: Impossible de supprimer le compte. " + err.message);
+                        const errorMessage = err.message || JSON.stringify(err);
+                        if (Platform.OS === 'web') {
+                            alert("Erreur: Impossible de supprimer le compte. " + errorMessage);
+                        } else {
+                            Alert.alert("Erreur", "Impossible de supprimer le compte. " + errorMessage);
+                        }
                     });
             }
         } else {
@@ -40,7 +45,12 @@ export default function HomeScreen() {
                                 })
                                 .catch(err => {
                                     console.error(err);
-                                    Alert.alert("Erreur", "Impossible de supprimer le compte. " + err.message);
+                                    const errorMessage = err.message || JSON.stringify(err);
+                                    if (Platform.OS === 'web') {
+                                        alert("Erreur: Impossible de supprimer le compte. " + errorMessage);
+                                    } else {
+                                        Alert.alert("Erreur", "Impossible de supprimer le compte. " + errorMessage);
+                                    }
                                 });
                         }
                     }
