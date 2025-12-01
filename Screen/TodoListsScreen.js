@@ -1,5 +1,5 @@
 import React, { useContext, useState, useEffect } from "react";
-import { View, share } from "react-native";
+import { View, Share } from "react-native";
 
 import { UsernameContext, TokenContext } from "../Context/Context";
 import { getTodoLists, deleteTodoList } from "../components/API/todoListAPI";
