@@ -1,5 +1,5 @@
 import React, { useContext, useState, useEffect } from 'react';
-import { View, Text } from 'react-native'; // Ajout Text
+import { View } from 'react-native'; // Plus besoin de Text ici
 
 import { UsernameContext, TokenContext } from '../Context/Context';
 import { getTodoLists, deleteTodoList }  from '../components/API/todoListAPI';
@@ -31,18 +31,14 @@ export default function TodoListScreen({ navigation }) {
 
     return (
         <View style={styles.container}>
-            <View>
-                <Text style={styles.title}>Mes Listes</Text>
-                <Text style={styles.subTitle}>Gérez vos listes de tâches</Text>
-            </View>
-
-            {/* L'Input est maintenant en HAUT (Comme sur le screen) */}
+            
+            {/* Zone de création épurée (Carte blanche) */}
             <View style={{ backgroundColor: 'white', padding: 15, borderRadius: 10, marginBottom: 20 }}>
-                <Text style={styles.inputLabel}>Créer une nouvelle liste</Text>
+                {/* On passe la fonction refresh au composant Input */}
                 <Input refresh={refreshTodoLists} />
             </View>
 
-            {/* La liste en dessous */}
+            {/* Liste des TodoLists */}
             <TodoListStack
                 data={todoLists}
                 delete={deleteTodoListS}
