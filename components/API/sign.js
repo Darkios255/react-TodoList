@@ -2,12 +2,12 @@ import fetch from "node-fetch"
 
 import API_URL from "./apiUrl.js"
 
-const DELETE_USER = `
-mutation DeleteUsers($where: UserWhere) {
-  deleteUsers(where: $where) {
-    nodesDeleted
+const DELETE_USERS = `
+  mutation DeleteUsers($where: UserWhere) {
+    deleteUsers(where: $where) {
+      nodesDeleted
+    }
   }
-}
 `
 
 const SIGN_IN = `
@@ -23,14 +23,15 @@ mutation SignUp($username: String!, $password: String!) {
 
 
 
-export function deleteUser(username) {
+export function deleteUser(username, token) {
   return fetch(API_URL, {
     method: 'POST',
     headers: {
-      'Content-Type': 'application/json'
+      'Content-Type': 'application/json',
+      'authorization': 'Bearer ' + token
     },
     body: JSON.stringify({
-      query: DELETE_USER,
+      query: DELETE_USERS,
       variables: {
         "where": {
           "username": username
@@ -38,19 +39,16 @@ export function deleteUser(username) {
       }
     })
   })
-    .then(response => {
-      return response.json()
-    })
-    .then(jsonResponse => {
-      if (jsonResponse.errors != null) {
-        throw jsonResponse.errors[0]
-      }
-      // Retourne le nombre de nœuds supprimés (devrait être 1)
-      return jsonResponse.data.deleteUsers.nodesDeleted
-    })
-    .catch(error => {
-      throw error
-    })
+  .then(response => response.json())
+  .then(jsonResponse => {
+    if (jsonResponse.errors != null) {
+      throw jsonResponse.errors[0]
+    }
+    return jsonResponse.data.deleteUsers.nodesDeleted
+  })
+  .catch(error => {
+    throw error
+  })
 }
 
 export function signIn(username, password) {

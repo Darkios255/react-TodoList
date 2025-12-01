@@ -1,12 +1,12 @@
 import React, { useContext } from 'react'
 import { View, Text, TouchableOpacity, Alert } from 'react-native'
 import { UsernameContext, TokenContext } from '../Context/Context'
-import { deleteUser } from '../components/API/sign' // <-- Import ajouté
+import { deleteUser } from '../components/API/sign'
 import styles from '../styles'
 
 export default function HomeScreen() {
     const [username, setUsername] = useContext(UsernameContext)
-    const [token, setToken] = useContext(TokenContext) // <-- Récupération du token (plus de '_')
+    const [token, setToken] = useContext(TokenContext) 
 
     const handleDeleteAccount = () => {
         Alert.alert(
@@ -18,8 +18,8 @@ export default function HomeScreen() {
                     text: "Supprimer", 
                     style: "destructive", 
                     onPress: () => {
-                        // Appel de l'API
-                        deleteUser(username)
+                        // Appel de l'API avec le token
+                        deleteUser(username, token)
                             .then(() => {
                                 // Si succès, on déconnecte l'utilisateur localement
                                 setToken(null);
