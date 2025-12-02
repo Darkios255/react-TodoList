@@ -2,6 +2,7 @@ import React from "react";
 import { View, TouchableOpacity, Text, Image } from "react-native";
 import styles from "../../styles";
 
+// Composant qui affiche un item de la todo list dans le mode "stack"
 export default function TodoListStackItem({ item, navigation, onExport, onDelete }) {
   return (
     <View style={styles.card}>

@@ -1,6 +1,7 @@
 import React from "react";
 import { Image, View, Text, StyleSheet, Switch, Pressable } from "react-native";
 
+// ce componement affiche un item de la todo list (il gere l'affichage)
 export default function TodoItem({ item, change, deleteTodo }) {
   return (
     <View style={localStyles.content}>
@@ -31,6 +32,7 @@ export default function TodoItem({ item, change, deleteTodo }) {
   );
 }
 
+// styles locaux 
 const localStyles = StyleSheet.create({
   content: {
     flexDirection: "row",

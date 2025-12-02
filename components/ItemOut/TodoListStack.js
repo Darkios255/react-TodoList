@@ -4,6 +4,7 @@ import { FlatList, View } from "react-native";
 import TodoListStackItem from "./TodoListStackItem";
 import styles from "../../styles";
 
+// Composant qui affiche la liste des todos dans une flat list
 export default function TodoListStack({ data, onExport, onDelete, navigation }) {
   return (
     <View style={styles.border}>

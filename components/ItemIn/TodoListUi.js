@@ -17,12 +17,26 @@ import {
 import TodoItem from "./TodoItem";
 import styles from "../../styles";
 
+
+/**
+ * Composant barre de progression propre (car correction d'une ancienne veersion de progress bar j'en ai tester 2 :D)
+ * 
+ * @component
+ * @param {Object} props - Les propriétés du composant
+ * @param {number} props.total - Le nombre total de tâches
+ * @param {number} props.done - Le nombre de tâches complétées
+ * @returns {JSX.Element} Une barre de progression avec les statistiques des tâches
+ * 
+ * @example
+ * <CleanProgressBar total={10} done={7} />
+ */
 const CleanProgressBar = ({ total, done }) => {
   const percent = total > 0 ? (done / total) * 100 : 0;
   return (
     <View style={styles.progressSection}>
       <View style={styles.statsRow}>
         <Text style={styles.statsText}>
+          
           {done} / {total} tâches complétées
         </Text>
       </View>
@@ -33,6 +47,7 @@ const CleanProgressBar = ({ total, done }) => {
   );
 };
 
+// Composant header de la todo list pour garder en memoire les controles sans re render a chaque fois
 const TodoListHeader = React.memo(
   ({
     title,
@@ -170,6 +185,16 @@ const TodoListHeader = React.memo(
   )
 );
 
+/**
+ * Composant principal de la Todo List
+ *
+ * @param {Object} props - Les propriétés du composant
+ * @param {Array} props.data - La liste des tâches
+ * @param {string} props.title - Le titre de la liste de tâches
+ * @param {number} props.listId - L'identifiant de la liste de tâches
+ * @param {Object} props.navigation - L'objet de navigation pour la navigation entre les écrans
+ * @returns {JSX.Element} Le composant TodoListUi
+ */
 export default function TodoListUi(props) {
   const [todos, setTodos] = useState(props.data);
   const count = todos.filter((item) => item.done).length;
@@ -199,6 +224,7 @@ export default function TodoListUi(props) {
     }
   }, [newTodoText, props.listId, token]);
 
+  // 
   const change = useCallback(
     (idTodo, state) => {
       // Mise à jour optimiste
@@ -309,12 +335,13 @@ export default function TodoListUi(props) {
     ]
   );
 
+  // return de la flat list avec les todos filtres 
   return (
     <FlatList
       style={styles.container}
       contentContainerStyle={styles.listContentPadding}
-      data={filteredTodos}
-      keyExtractor={(item) => item.id.toString()}
+      data={filteredTodos} 
+      keyExtractor={(item) => item.id.toString()} 
       ListHeaderComponent={headerComponent}
       renderItem={({ item }) => (
         <View style={styles.listItemContainer}>

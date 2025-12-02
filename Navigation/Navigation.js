@@ -14,6 +14,7 @@ import styles from "../styles";
 const Tab = createBottomTabNavigator();
 const AuthStack = createNativeStackNavigator();
 
+// Composant bouton de deconnexion dans le header
 function LogoutButton() {
   const [, setToken] = useContext(TokenContext);
   const [, setUsername] = useContext(UsernameContext);
@@ -34,11 +35,12 @@ function LogoutButton() {
   );
 }
 
+// Composant de navigation principal de l'application (authentification + todo list)
 export default function Navigation() {
   const [token] = useContext(TokenContext);
 
   return (
-    <NavigationContainer>
+    <NavigationContainer> 
       {token == null ? (
         <AuthStack.Navigator screenOptions={{ headerShown: false }}>
           <AuthStack.Screen name="Auth" component={SignInScreen} />

@@ -9,6 +9,7 @@ import Input from "../components/API/input";
 import TodoListStack from "../components/ItemOut/TodoListStack";
 import styles from "../styles";
 
+// Ecran affichant les todo listes de l'utilisateur
 export default function TodoListScreen({ navigation }) {
   const [token] = useContext(TokenContext);
   const [username] = useContext(UsernameContext);

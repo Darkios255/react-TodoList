@@ -5,6 +5,7 @@ import { createNativeStackNavigator } from "@react-navigation/native-stack";
 
 const Stack = createNativeStackNavigator();
 
+// Navigation pour les ecrans de la todo list (la liste des listes + les details d'une liste)
 export default function NavigationTodo() {
   return (
     <Stack.Navigator

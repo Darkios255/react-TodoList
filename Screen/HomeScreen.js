@@ -4,6 +4,7 @@ import { UsernameContext, TokenContext } from "../Context/Context";
 import { deleteUser } from "../components/API/sign";
 import styles from "../styles";
 
+// Ecran d'accueil apres connexion
 export default function HomeScreen() {
   const [username, setUsername] = useContext(UsernameContext);
   const [token, setToken] = useContext(TokenContext);

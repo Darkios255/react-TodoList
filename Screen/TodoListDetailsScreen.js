@@ -6,6 +6,7 @@ import { getTodos } from "../components/API/todo";
 import { TokenContext } from "../Context/Context";
 import styles from "../styles";
 
+// Ecran de details d'une todo list
 export default function TodoListDetailsScreen({ route, navigation }) {
   const [token] = useContext(TokenContext);
   const [data, setData] = useState([]);

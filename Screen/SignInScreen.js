@@ -11,6 +11,7 @@ import styles from "../styles";
 import { TokenContext, UsernameContext } from "../Context/Context";
 import { signIn, signUp } from "../components/API/sign";
 
+// Ecran de connexion / inscription
 export default function SignInScreen() {
   const [isSignUp, setIsSignUp] = useState(false);
   const [username, setUsernameState] = useState("");
